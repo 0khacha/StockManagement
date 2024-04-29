@@ -1,0 +1,67 @@
+.header {
+    background-color: #FFFFFF; /* Example background color */
+    padding: 20px;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.search-container {
+    padding : 5px 10px ;
+    margin-right: 10px; /* Adjust as needed */
+    background:#F5F5F5 ;
+    border: 1px solid #DDD;
+    border-radius: 5px;
+    width: 300px;
+    align-items: center;
+}
+.search:focus{
+   outline: none;
+}
+.search
+{   padding-left: 10px;
+    border: 0;
+    background:#F5F5F5;
+    text-decoration: none;
+
+}
+/* In your CSS file (header.css) */
+.feather-icon {
+    width: 1.2em;
+    height: 1.2em;
+}
+
+.search-icon
+{
+    color: gray;
+    cursor: pointer;
+}
+.connexion-container {
+    display: flex;
+    align-items: center;
+}
+
+.notifaction-container {
+    margin-right: 10px; /* Adjust as needed */
+    cursor: pointer;
+    border-color: black;
+
+}
+#bar
+{
+    color: gray;
+    margin: auto 10px auto ;
+}
+.connexion-container
+{
+    margin-left: 10px;
+}
+#link
+{
+
+}
+
+/* Add additional styling as needed */
