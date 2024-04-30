@@ -5,13 +5,14 @@ function Turnover() {
         <div className="second-container">
              <div className="graph-container">
                  <div className='graph-items'>
-                     <h1>heeeey</h1>
+                     tit
+                     <h3>heeeey</h3>
                  </div>
              </div>
               <div className="selling-container">
-                  <h2>Best se</h2>
+                  <h3>Best Selling</h3>
                   <ul>
-                      <li>Best selling</li>
+                      <li>Best selling </li>
                       <li>Best selling</li>
                       <li>Best selling</li>
                   </ul>
