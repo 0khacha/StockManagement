@@ -1,0 +1,82 @@
+@font-face {
+    font-family: 'Poppins';
+    src: url('../../fonts/Poppins-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'Poppins';
+    src: url('../../fonts/Poppins-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: 'Poppins';
+    src: url('../../fonts/Poppins-Medium.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: 'Poppins';
+    src: url('../../fonts/Poppins-SemiBold.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+  }
+
+.logo{
+    width: 5em;
+    margin-top: 7.5%;
+}
+ul{
+    padding: 0;
+}
+li{
+    list-style: none;
+    border-radius: 15px;
+}
+nav ul li a{
+    text-decoration: none;
+    color: black;
+    font-family:'Poppins';
+    display: flex;
+    gap: 17px;
+    padding: 10px 15px 10px 15px ;
+}
+.buttom-menu li a{
+    padding: 10px 15px 10px 15px ;
+}
+nav{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+    background-color: white;
+}
+.feather-icon{
+    width: 1.2em;
+}
+.settings{
+    border-top: 1.8px solid #D9D9D9;
+}
+li:hover{
+    background-color: #F5F5F5;
+}
+.menu-remove{
+    height: 2em;
+    width: 2em;
+    color: gray;
+}
+.menu-remove:hover{
+    color: rgba(0, 0, 0, 0.815);
+    cursor: pointer;
+}
+.centered-icon{
+    height: 100vh;
+    display: flex;
+    align-items: center;
+}
+.Nav{
+    display: flex;
+    max-width: 228px;
+}
