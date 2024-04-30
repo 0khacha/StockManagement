@@ -5,11 +5,12 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import Navbar from "./components/Navbar";
 import Header from "./components/Header/Header";
+import Turnover from "./components/Dashboard/Turnover";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <React.StrictMode>
-        <Header/>
+        <Turnover/>
     </React.StrictMode>
 );
 
