@@ -1,6 +1,11 @@
+:root
+{
+  --primary-color:#F5F5F5;
+  --secondary-color:#fff;
+}
 body
 {
   margin: 0;
-  background: #F5F5F5;
+  background: var(--primary-color);
   font-family: 'Poppins', sans-serif;
 }

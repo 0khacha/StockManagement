@@ -15,6 +15,7 @@ export default function Navbar()
 {
     return(
         <nav>
+
             <img src={'/logo.png'} id='logo' alt='logo'/>
             <ul>
                 <li><Link to="/"><FontAwesomeIcon icon={faHome} /> Dashboard</Link></li>
