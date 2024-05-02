@@ -1,11 +1,32 @@
-:root
-{
-  --primary-color:#F5F5F5;
-  --secondary-color:#fff;
+
+:root{
+    --nav-width: 92px;
+
+    /*===== Colores =====*/
+    --first-color: #0C5DF4;
+    --bg-color: #12192C;
+    --sub-color: #B6CEFC;
+    --white-color: #FFF;
+
+    /*===== Fuente y tipografia =====*/
+    --body-font: 'Poppins', sans-serif;
+    --normal-font-size: 1rem;
+    --small-font-size: .875rem;
+
+    /*===== z index =====*/
+    --z-fixed: 100;
 }
-body
-{
-  margin: 0;
-  background: var(--primary-color);
-  font-family: 'Poppins', sans-serif;
+
+
+/*===== BASE =====*/
+*,::before,::after{
+    box-sizing: border-box;
+}
+body{
+    position: relative;
+    margin: auto;
+    background: #F5F5F5;
+    font-family: var(--body-font);
+    font-size: var(--normal-font-size);
+    transition: .5s;
 }

@@ -1,34 +1,24 @@
-import {Link} from "react-router-dom";
-import {
-    faBox,
-    faCog,
-    faDollarSign,
-    faHome,
-    faNewspaper, faShoppingCart,
-    faSignOutAlt,
-    faTruck,
-    faUsers
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React from 'react';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { Routes } from 'react-router-dom';
 
-export default function Navbar()
-{
-    return(
-        <nav>
+import Header from "./Header/Header";
+import Navbar from "./NavBar/Navbar";
+import Dashboard from "../pages/Dashboard/Dashboard";
 
-            <img src={'/logo.png'} id='logo' alt='logo'/>
-            <ul>
-                <li><Link to="/"><FontAwesomeIcon icon={faHome} /> Dashboard</Link></li>
-                <li><Link to="/client"><FontAwesomeIcon icon={faUsers} /> Client</Link></li>
-                <li><Link to="/supplier"><FontAwesomeIcon icon={faTruck} /> Supplier</Link></li>
-                <li><Link to="/orders"><FontAwesomeIcon icon={faShoppingCart} /> Orders</Link></li>
-                <li><Link to="/articles"><FontAwesomeIcon icon={faNewspaper} /> Article</Link></li>
-                <li><Link to="/sales"><FontAwesomeIcon icon={faDollarSign} /> Sales</Link></li>
-                <li><Link to="/stock"><FontAwesomeIcon icon={faBox} /> Stock</Link></li>
-                <li id={'settings'}><Link to="/settings"><FontAwesomeIcon icon={faCog} /> Settings</Link></li>
-                <li id={'logout'}><Link to="/logout"><FontAwesomeIcon icon={faSignOutAlt} /> Log out</Link></li>
-            </ul>
-        </nav>
-    )
 
+function App() {
+    return (
+        <Router>
+            <div>
+                <Header/>
+                    <Navbar></Navbar>
+                <Routes>
+                    <Route exact path="../pages/Dashboard/Dashboard" component={Dashboard} />
+                </Routes>
+            </div>
+        </Router>
+    );
 }
+
+export default App;

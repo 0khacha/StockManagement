@@ -1,10 +1,14 @@
 import React from 'react';
+import '../../components/css/Dashboard.css'
+import Turnover from "../../components/Dashboard/Turnover";
+
 
 const Dashboard = () => {
     return (
-        <div>
+<div className={'body'}>
+ <Turnover />
+</div>
 
-        </div>
     );
 };
 
