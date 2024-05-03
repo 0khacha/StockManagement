@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 import './assets/css/styles.css'; // Import your CSS file
-import logo from '../logo.png'
+import logo from '../logo.png';
 import {
     Menu,
     Home,
@@ -14,15 +15,16 @@ import {
     Truck,
 } from 'react-feather';
 import Header from "../Header/Header";
-import Dashboard from "../../pages/Dashboard/Dashboard";
 
 
 function Sidebar() {
     const [isNavOpen, setIsNavOpen] = useState(false);
-    const [activeLink, setActiveLink] = useState(null);
+    const [activeLink, setActiveLink] = useState("Dashboard"); // Set Dashboard as active by default
+
 
     const toggleMenu = () => {
         setIsNavOpen(!isNavOpen);
+        document.body.classList.toggle("sidebar-open");
     };
 
     const handleLinkClick = (name) => {
@@ -35,83 +37,67 @@ function Sidebar() {
     };
 
     return (
-
         <div id="body-pd" className={isNavOpen ? "body-pd" : ""}>
-            <Header/>
             <div className={`l-navbar ${isNavOpen ? "expander" : ""}`} id="navbar">
                 <nav className="nav">
                     <div>
                         <div className="nav__brand">
                             <Menu className="nav__toggle" id="nav-toggle" onClick={toggleMenu} />
-                            <a href="#" className="nav__logo"><img className={'logo-img'} src={logo} /></a>
+                            <Link to="/" className="nav__logo"><img className={'logo-img'} src={logo} alt="Logo" /></Link>
                         </div>
                         <div className="nav__list">
-                            <a href="../../pages/Dashboard/Dashboard.jsx"
-                               className={`nav__link ${activeLink === "Dashboard" ? "active" : ""}`}
-                               onClick={() => handleLinkClick("Dashboard")}>
-                                <Home className="nav__icon"/>
+                            <Link to="/" className={`nav__link ${activeLink === "Dashboard" ? "active" : ""}`} onClick={() => handleLinkClick("Dashboard")}>
+                                <Home className="nav__icon" />
                                 <span className="nav__name">Dashboard</span>
-                            </a>
-                            <a href="#" className={`nav__link ${activeLink === "Messenger" ? "active" : ""}`}
-                               onClick={() => handleLinkClick("Messenger")}>
-                                <MessageSquare className="nav__icon"/>
+                            </Link>
+                            <Link to="/messenger" className={`nav__link ${activeLink === "Messenger" ? "active" : ""}`} onClick={() => handleLinkClick("Messenger")}>
+                                <MessageSquare className="nav__icon" />
                                 <span className="nav__name">Messenger</span>
-                            </a>
-                            <a href="#" className={`nav__link ${activeLink === "Clients" ? "active" : ""}`}
-                               onClick={() => handleLinkClick("Clients")}>
-                                <Users className="nav__icon"/>
+                            </Link>
+                            <Link to="/clients" className={`nav__link ${activeLink === "Clients" ? "active" : ""}`} onClick={() => handleLinkClick("Clients")}>
+                                <Users className="nav__icon" />
                                 <span className="nav__name">Clients</span>
-                            </a>
-                            <a href="#" className={`nav__link ${activeLink === "Supplier" ? "active" : ""}`}
-                               onClick={() => handleLinkClick("Supplier")}>
-                                <Truck className="nav__icon"/>
+                            </Link>
+                            <Link to="/supplier" className={`nav__link ${activeLink === "Supplier" ? "active" : ""}`} onClick={() => handleLinkClick("Supplier")}>
+                                <Truck className="nav__icon" />
                                 <span className="nav__name">Supplier</span>
-                            </a>
+                            </Link>
                             <div className="nav__link collapse">
-                                <Folder className="nav__icon"/>
+                                <Folder className="nav__icon" />
                                 <span className="nav__name">Projects</span>
-
-                                <ChevronDown className="collapse__link" onClick={toggleCollapse}/>
-
+                                <ChevronDown className="collapse__link" onClick={toggleCollapse} />
                                 <ul className="collapse__menu">
                                     <li><a href="#" className="collapse__sublink">Data</a></li>
                                     <li><a href="#" className="collapse__sublink">Group</a></li>
                                     <li><a href="#" className="collapse__sublink">Members</a></li>
                                 </ul>
                             </div>
-
-                            <a href="#" className={`nav__link ${activeLink === "Analytics" ? "active" : ""}`}
-                               onClick={() => handleLinkClick("Analytics")}>
-                                <PieChart className="nav__icon"/>
+                            <Link to="/analytics" className={`nav__link ${activeLink === "Analytics" ? "active" : ""}`} onClick={() => handleLinkClick("Analytics")}>
+                                <PieChart className="nav__icon" />
                                 <span className="nav__name">Analytics</span>
-                            </a>
+                            </Link>
                             <div className="nav__link collapse">
-                                <Users className="nav__icon"/>
+                                <Users className="nav__icon" />
                                 <span className="nav__name">Team</span>
-
-                                <ChevronDown className="collapse__link" onClick={toggleCollapse}/>
-
+                                <ChevronDown className="collapse__link" onClick={toggleCollapse} />
                                 <ul className="collapse__menu">
                                     <li><a href="#" className="collapse__sublink">Data</a></li>
                                     <li><a href="#" className="collapse__sublink">Group</a></li>
                                     <li><a href="#" className="collapse__sublink">Members</a></li>
                                 </ul>
                             </div>
-                            <a href="#" className={`nav__link ${activeLink === "Settings" ? "active" : ""}`}
-                               onClick={() => handleLinkClick("Settings")}>
-                                <Settings className="nav__icon"/>
+                            <Link to="/settings" className={`nav__link ${activeLink === "Settings" ? "active" : ""}`} onClick={() => handleLinkClick("Settings")}>
+                                <Settings className="nav__icon" />
                                 <span className="nav__name">Settings</span>
-                            </a>
+                            </Link>
                         </div>
                     </div>
-
-                    <a href="#" className="nav__link">
-                        <LogOut className="nav__icon"/>
+                    <Link to="/logout" className="nav__link">
+                        <LogOut className="nav__icon" />
                         <span className="nav__name">Log Out</span>
-                    </a>
+                    </Link>
                 </nav>
             </div>
-            <Dashboard/>
         </div>
     );
 }

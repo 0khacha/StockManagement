@@ -5,6 +5,9 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 
 import App from "./App";
+import Login from "./pages/Login/Login";
+import Appp from "./pages/Login/Login";
+import Sidebar from "./components/sidebar/Sidebar";
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

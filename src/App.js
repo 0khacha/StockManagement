@@ -1,16 +1,18 @@
-// In your main App.js or equivalent file
+// App.js
 
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; // Import BrowserRouter, Routes, and Route
 import Sidebar from './components/sidebar/Sidebar';
 import Dashboard from './pages/Dashboard/Dashboard';
+import Header from "./components/Header/Header";
 
 function App() {
     return (
         <Router>
             <Sidebar />
+            <Header />
             <Routes>
-                <Route exact path="/" component={Dashboard} />
+                <Route path="/" element={<Dashboard />} /> {/* Use path="/" instead of exact path="/" */}
                 {/* Add more routes here if needed */}
             </Routes>
         </Router>
