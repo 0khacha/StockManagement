@@ -1,14 +1,11 @@
 .second-container
 {
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    margin-right: 20px;
-    margin-top: 20px;
+    justify-content: space-around;
 }
 .graph-container
 {
-    width: 60%;
+    width: 55%;
 
 }
 .selling-container
@@ -39,26 +36,25 @@
 
     background: #f0f0f0; ;
     border-radius: 20px;
-    padding: 4px;
+    padding: 3px 10px 3px 10px;
     font-size: 14px;
 }
 
 .months li:hover,
 .months li.selected {
-    background-color: #0ae146; /* Change background color when hovered or selected */
-    color: #333; /* Change text color when hovered or selected */
-    font-weight: bold; /* Optionally, make the text bold when hovered or selected */
-    cursor: pointer; /* Change cursor to indicate clickable */
+    background-color: #0ae146;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
 }
-.graph
-{
 
-
-}
 .selling-container ul li
 {
     list-style: none;
     margin-top: 10px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
     color: rgba(128, 128, 128, 0.76);
 }
 .title-items
@@ -66,8 +62,7 @@
     border: 1.5px none #9f9c9c;
     border-bottom-style: solid;
     display: flex;
-    flex-direction: row;
-
+    align-items: center;
 }
 .value
 {
@@ -79,5 +74,5 @@
 }
 .price {
     font-weight: bold;
-    margin-left: 40px;
+    margin-left: 40px;
 }

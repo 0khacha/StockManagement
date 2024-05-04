@@ -54,7 +54,7 @@ function Sidebar() {
                                 <MessageSquare className="nav__icon" />
                                 <span className="nav__name">Messenger</span>
                             </Link>
-                            <Link to="/clients" className={`nav__link ${activeLink === "Clients" ? "active" : ""}`} onClick={() => handleLinkClick("Clients")}>
+                            <Link to="/client" className={`nav__link ${activeLink === "Clients" ? "active" : ""}`} onClick={() => handleLinkClick("Clients")}>
                                 <Users className="nav__icon" />
                                 <span className="nav__name">Clients</span>
                             </Link>
