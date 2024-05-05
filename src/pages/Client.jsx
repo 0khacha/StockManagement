@@ -15,6 +15,10 @@ function Client() {
                         <input type="text" placeholder='Please enter the first name ...'/>
                     </div>
                     <div className='title-input'>
+                        <h5>Email</h5>
+                        <input type="email" placeholder='Please enter the email ...'/>
+                    </div>
+                    <div className='title-input'>
                         <h5>Phone Number</h5>
                         <input type="text" placeholder='Please enter the phone number ...'/>
                     </div>
@@ -30,13 +34,15 @@ function Client() {
                     <tr>
                         <th>First Name</th>
                         <th>Last Name</th>
+                        <th>Email</th>
                         <th>Phone number</th>
                         <th>Address</th>
                         <th>Action</th>
                     </tr>
                     <tr>
-                        <td>Hicham</td>
+                    <td>Hicham</td>
                         <td>Imlal</td>
+                        <td>exemple@email.com</td>
                         <td>0707995929</td>
                         <td>Sidi Bibi</td>
                         <div className={"action"}>
@@ -45,8 +51,9 @@ function Client() {
                         </div>
                     </tr>
                     <tr>
-                    <td>Hicham</td>
+                        <td>Hicham</td>
                         <td>Imlal</td>
+                        <td>exemple@email.com</td>
                         <td>0707995929</td>
                         <td>Sidi Bibi</td>
                         <td></td>

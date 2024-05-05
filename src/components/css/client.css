@@ -1,7 +1,9 @@
 .client-screen{
-    height: 87vh;
+    height: 100%;
+    margin-top: 60px;
     margin-left: 8rem;
     display: flex;
+
     justify-content: space-between;
 }
 h5{
@@ -10,6 +12,7 @@ h5{
 }
 .formulaire{
     display: flex;
+    padding: 10px;
     flex-direction: column;
     justify-content: space-evenly;
     align-items: center;
@@ -45,10 +48,12 @@ input:focus{
     background-color: #0ae146;
     color: white;
     border: none;
-    height: 8%;
+    height: 40px;
+    margin-top: 20px;
     border-radius: 10px;
     font-size: 15px;
     cursor: pointer;
+    margin-bottom: 20px;
 }
 table{
     background-color: white;

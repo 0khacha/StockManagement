@@ -13,6 +13,10 @@ import {
     Settings,
     LogOut,
     Truck,
+    ShoppingBag, // New icon for Orders
+    FileText, // New icon for Articles
+    Archive, // New icon for Stock
+    DollarSign // New icon for Sales
 } from 'react-feather';
 import Header from "../Header/Header";
 
@@ -50,10 +54,10 @@ function Sidebar() {
                                 <Home className="nav__icon" />
                                 <span className="nav__name">Dashboard</span>
                             </Link>
-                            <Link to="/messenger" className={`nav__link ${activeLink === "Messenger" ? "active" : ""}`} onClick={() => handleLinkClick("Messenger")}>
-                                <MessageSquare className="nav__icon" />
-                                <span className="nav__name">Messenger</span>
-                            </Link>
+                            {/*<Link to="/messenger" className={`nav__link ${activeLink === "Messenger" ? "active" : ""}`} onClick={() => handleLinkClick("Messenger")}>*/}
+                            {/*    <MessageSquare className="nav__icon" />*/}
+                            {/*    <span className="nav__name">Messenger</span>*/}
+                            {/*</Link>*/}
                             <Link to="/client" className={`nav__link ${activeLink === "Clients" ? "active" : ""}`} onClick={() => handleLinkClick("Clients")}>
                                 <Users className="nav__icon" />
                                 <span className="nav__name">Clients</span>
@@ -62,16 +66,32 @@ function Sidebar() {
                                 <Truck className="nav__icon" />
                                 <span className="nav__name">Supplier</span>
                             </Link>
-                            <div className="nav__link collapse">
-                                <Folder className="nav__icon" />
-                                <span className="nav__name">Projects</span>
-                                <ChevronDown className="collapse__link" onClick={toggleCollapse} />
-                                <ul className="collapse__menu">
-                                    <li><a href="#" className="collapse__sublink">Data</a></li>
-                                    <li><a href="#" className="collapse__sublink">Group</a></li>
-                                    <li><a href="#" className="collapse__sublink">Members</a></li>
-                                </ul>
-                            </div>
+                            <Link to="/orders" className={`nav__link ${activeLink === "Orders" ? "active" : ""}`} onClick={() => handleLinkClick("Orders")}>
+                                <ShoppingBag className="nav__icon" />
+                                <span className="nav__name">Orders</span>
+                            </Link>
+                            <Link to="/articles" className={`nav__link ${activeLink === "Articles" ? "active" : ""}`} onClick={() => handleLinkClick("Articles")}>
+                                <FileText className="nav__icon" />
+                                <span className="nav__name">Articles</span>
+                            </Link>
+                            <Link to="/sales" className={`nav__link ${activeLink === "Sales" ? "active" : ""}`} onClick={() => handleLinkClick("Sales")}>
+                                <DollarSign className="nav__icon" />
+                                <span className="nav__name">Sales</span>
+                            </Link>
+                            <Link to="/stock" className={`nav__link ${activeLink === "Stock" ? "active" : ""}`} onClick={() => handleLinkClick("Stock")}>
+                                <Archive className="nav__icon" />
+                                <span className="nav__name">Stock</span>
+                            </Link>
+                            {/*<div className="nav__link collapse">*/}
+                            {/*    <Folder className="nav__icon" />*/}
+                            {/*    <span className="nav__name">Projects</span>*/}
+                            {/*    <ChevronDown className="collapse__link" onClick={toggleCollapse} />*/}
+                            {/*    <ul className="collapse__menu">*/}
+                            {/*        <li><a href="#" className="collapse__sublink">Data</a></li>*/}
+                            {/*        <li><a href="#" className="collapse__sublink">Group</a></li>*/}
+                            {/*        <li><a href="#" className="collapse__sublink">Members</a></li>*/}
+                            {/*    </ul>*/}
+                            {/*</div>*/}
                             <Link to="/analytics" className={`nav__link ${activeLink === "Analytics" ? "active" : ""}`} onClick={() => handleLinkClick("Analytics")}>
                                 <PieChart className="nav__icon" />
                                 <span className="nav__name">Analytics</span>

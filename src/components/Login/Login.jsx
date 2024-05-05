@@ -1,52 +1,40 @@
-import React, { useState } from "react";
-import './styles.css';
-function Login() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [rememberMe, setRememberMe] = useState(false);
+// components/Login.js
 
-  const handleUsernameChange = (event) => {
-    setUsername(event.target.value);
-  };
+import React, { useState } from 'react';
 
-  const handlePasswordChange = (event) => {
-    setPassword(event.target.value);
-  };
+const Login = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-
-    if (rememberMe) {
-      console.log("Remember me is checked");
-    }
-
-
-    console.log(`Submitted username: ${username}, password: ${password}`);
+  const handleLogin = (e) => {
+    e.preventDefault();
+    // Add your login logic here
   };
 
   return (
-    <div id="login-tab-content" className="tabcontent">
-      <form className="login-form" action="" method="post" onSubmit={handleSubmit}>
-        <input type="text" className="input" id="user_login" autoComplete="off" placeholder="Username" value={username} onChange={handleUsernameChange}/>
-        <input type="password" className="input" id="user_pass" autoComplete="off" placeholder="Password" value={password} onChange={handlePasswordChange}/>
-        <input 
-          type="checkbox" 
-          className="checkbox"
-          id="remember_me" 
-          checked={rememberMe}
-          onChange={(event) => setRememberMe(event.target.checked)}
-        />
-        <label form="remember_me">Remember me</label>
+      <form onSubmit={handleLogin}>
+          <h2>Login</h2>
 
-        <input type="submit" className="button" value="Login" />
+          <input className={'login-input'}
+                  type="email"
+                  placeholder="Email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+              />
+          <input className={'login-input'}
+                  type="password"
+                  placeholder="Password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+              />
+
+              <button type="submit" className={'submit'}>Login</button>
+
       </form>
-      <div className="help-text">
-        <p>
-          <a href="#">Forget your password?</a>
-        </p>
-      </div>
-    </div>
-  );
-}
+
+);
+};
 
 export default Login;

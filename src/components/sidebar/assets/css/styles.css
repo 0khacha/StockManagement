@@ -44,7 +44,7 @@ a{
   grid-template-columns: max-content max-content;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
 }
 .nav__toggle{
   margin-left: 13px;
@@ -65,7 +65,7 @@ a{
   padding: .70rem;
   color: black;
   border-radius: .5rem;
-  margin-bottom: 2px;
+  margin-bottom: 1px;
   transition: .3s;
   cursor: pointer;
 }
