@@ -23,10 +23,10 @@ function App() {
                     </div>
                     <div className="switch">
                         <button className={isLogin ? "active" : ""} onClick={toggleForm}>
-                            {isLogin ? 'Sign Up' : 'Login'}
+                            {isLogin ? 'Login': 'Login' }
                         </button>
                         <button className={!isLogin ? "active" : ""} onClick={toggleForm}>
-                            {isLogin ? 'Login' : 'Sign Up'}
+                            {isLogin ? 'Sign Up' : 'Sign up'}
                         </button>
                     </div>
                     {isLogin ? <Login /> : <SignUp />}
