@@ -1,5 +1,5 @@
 import { Search, Bell } from 'react-feather';
-import '../css/header.css';
+import './header.css';
 import NavbarSearch from "./navbarSearch";
 import NavbarConnexion from "./NavbarConnexion";
 

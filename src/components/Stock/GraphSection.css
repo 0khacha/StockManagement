@@ -1,0 +1,79 @@
+.cercle-graph-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* Center items vertically */
+    border-radius: 10px;
+    margin-bottom: 60px;
+    height: auto; /* Allow height to adjust based on content */
+}
+
+.product-details {
+    padding: 20px;
+    background-color: white;
+    border: 1px solid lightgray;
+    border-radius: 10px;
+    width: 50%;
+    height: 400px;
+}
+
+.product-details h3 {
+    font-weight: 600;
+    padding-bottom: 20px;
+    border-bottom: 1.5px solid gray;
+}
+
+.graph-content {
+    padding: 20px;
+    background-color: white;
+    border: 1px solid lightgray;
+    border-radius: 10px;
+    width: 30%; /* Adjust width as needed */
+    height: 400px;
+}
+
+.red-items {
+    color: red;
+}
+
+.green-items {
+    color: green;
+}
+
+.product-details ul li {
+    margin-top: 5px;
+    font-weight: bold;
+}
+
+.product-details .green-items,
+.red-items {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.product-details ul li .item-name {
+    flex: 1;
+    margin-right: 10px; /* Adjust margin as needed */
+    text-align: left;
+}
+
+.product-details ul li .item-value {
+    text-align: right;
+}
+
+/* Position the legend to the left */
+.Cergraph-container {
+    padding: 20px;
+    background-color: white;
+    display: flex;
+    justify-content: center; /* Center items horizontally */
+    align-items: center; /* Center items vertically */
+    border: 1px solid lightgray;
+    border-radius: 10px;
+    width: 30%; /* Adjust width as needed */
+    height: 400px;
+}
+
+.Tubercle {
+    width: 80%; /* Adjust width as needed */
+}

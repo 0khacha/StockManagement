@@ -4,13 +4,13 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Sidebar from './components/sidebar/Sidebar';
 import Dashboard from './pages/Dashboard/Dashboard';
-import Client from './pages/Client';
+import Client from './pages/Client/Client';
 import Header from './components/Header/Header';
-import SuppliersList from "./components/Suppliers/SuppliersList";
 import Supplier from "./components/Suppliers/Supplier";
 import Orders from "./components/Orders/Orders";
 import Article from "./components/Article/Article";
 import Sales from "./components/Sales/Sales";
+import Stock from "./pages/Stock/Stock";
 
 
 
@@ -26,6 +26,7 @@ function App() {
                 <Route  path="/orders" element={<Orders/>} />
                 <Route  path="/articles" element={<Article/>} />
                 <Route  path="/sales" element={<Sales/>} />
+                <Route  path="/stock" element={<Stock/>} />
             </Routes>
         </Router>
     );

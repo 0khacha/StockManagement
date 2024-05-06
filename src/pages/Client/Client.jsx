@@ -1,5 +1,5 @@
 import React from 'react'
-import '../components/css/client.css'
+import './client.css'
 import {Delete, Edit, Menu, Trash2} from "react-feather";
 function Client() {
     return (
@@ -56,12 +56,6 @@ function Client() {
                         <td>exemple@email.com</td>
                         <td>0707995929</td>
                         <td>Sidi Bibi</td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
                         <td></td>
                     </tr>
                 </table>

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Edit, Trash2 } from "react-feather";
+import  "./Article.css"
 
 function Articles() {
     const articles = [
@@ -39,7 +40,7 @@ function Articles() {
                     </div>
                     <div className='title-input'>
                         <h5>Image</h5>
-                        <input type="file" accept="image/*" />
+                        <input type="file" accept="image/*" className={"file-image"}/>
                     </div>
                     <button className='validate'>Validate</button>
                 </form>

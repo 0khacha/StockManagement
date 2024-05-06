@@ -1,11 +1,11 @@
 // App.js
 
 import React, { useState } from 'react';
-import '../../components/Login/styles.css';
+import './styles.css';
 import Login from '../../components/Login/Login';
 import SignUp from '../../components/Login/Signup';
 import logo from '../../components/images/logo.png';
-import sideImage from '../../components/images/Beige Aesthetic Illustration Perfume Shop Logo.svg';
+// import sideImage from '../../components/images/Beige Aesthetic Illustration Perfume Shop Logo.svg';
 
 function App() {
     const [isLogin, setIsLogin] = useState(true);

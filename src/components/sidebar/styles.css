@@ -61,7 +61,7 @@ a{
   display: grid;
   grid-template-columns: max-content max-content;
   align-items: center;
-  column-gap: .75rem;
+  column-gap: .80rem;
   padding: .70rem;
   color: black;
   border-radius: .5rem;

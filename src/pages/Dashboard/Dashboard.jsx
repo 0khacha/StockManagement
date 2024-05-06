@@ -1,5 +1,5 @@
 import React from 'react';
-import '../../components/css/Dashboard.css'
+import './Dashboard.css'
 import Turnover from "../../components/Dashboard/Turnover";
 
 

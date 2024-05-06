@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom'; // Import Link from react-router-dom
-import './assets/css/styles.css'; // Import your CSS file
+import './styles.css'; // Import your CSS file
 import logo from '../logo.png';
 import {
     Menu,
@@ -81,20 +81,6 @@ function Sidebar() {
                             <Link to="/stock" className={`nav__link ${activeLink === "Stock" ? "active" : ""}`} onClick={() => handleLinkClick("Stock")}>
                                 <Archive className="nav__icon" />
                                 <span className="nav__name">Stock</span>
-                            </Link>
-                            {/*<div className="nav__link collapse">*/}
-                            {/*    <Folder className="nav__icon" />*/}
-                            {/*    <span className="nav__name">Projects</span>*/}
-                            {/*    <ChevronDown className="collapse__link" onClick={toggleCollapse} />*/}
-                            {/*    <ul className="collapse__menu">*/}
-                            {/*        <li><a href="#" className="collapse__sublink">Data</a></li>*/}
-                            {/*        <li><a href="#" className="collapse__sublink">Group</a></li>*/}
-                            {/*        <li><a href="#" className="collapse__sublink">Members</a></li>*/}
-                            {/*    </ul>*/}
-                            {/*</div>*/}
-                            <Link to="/analytics" className={`nav__link ${activeLink === "Analytics" ? "active" : ""}`} onClick={() => handleLinkClick("Analytics")}>
-                                <PieChart className="nav__icon" />
-                                <span className="nav__name">Analytics</span>
                             </Link>
                             <div className="nav__link collapse">
                                 <Users className="nav__icon" />
