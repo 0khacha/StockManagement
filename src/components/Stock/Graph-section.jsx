@@ -29,7 +29,8 @@ function GraphSection() {
         <div className='cercle-graph-section'>
             <ProductDetails/>
             <div className='Cergraph-container'>
-                <h2>Circle Graph</h2>
+                <h3>Circle Graph</h3>
+                <h5>Legend :</h5>
                 <div className={"Tubercle"}>
                 <Pie  data={data}/>
                 </div>

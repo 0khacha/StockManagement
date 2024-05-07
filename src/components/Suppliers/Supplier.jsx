@@ -5,21 +5,21 @@ import {Edit, Trash2} from "react-feather"; // You may need to create this compo
 
 function SupplierPage() {
     const suppliers = [
-        { id: 1, name: 'Supplier 1', email: 'supplier1@example.com', phone: '123-456-7890' ,address: 'city1'},
-        { id: 2, name: 'Supplier 2', email: 'supplier2@example.com', phone: '234-567-8901',address: 'city1'},
-        { id: 3, name: 'Supplier 3', email: 'supplier3@example.com', phone: '345-678-9012',address: 'city1'},
-        { id: 4, name: 'Supplier 4', email: 'supplier4@example.com', phone: '345-678-9012',address: 'city1'},
+        { id: 1, firstname: 'Supplier 1',lastname: 'Supplier 1', email: 'supplier1@example.com', phone: '123-456-7890' ,address: 'city1'},
+        { id: 2,firstname: 'Supplier 1',lastname: 'Supplier 1', email: 'supplier2@example.com', phone: '234-567-8901',address: 'city1'},
+        { id: 3, firstname: 'Supplier 1',lastname: 'Supplier 1', email: 'supplier3@example.com', phone: '345-678-9012',address: 'city1'},
+        { id: 4, firstname: 'Supplier 1',lastname: 'Supplier 1', email: 'supplier4@example.com', phone: '345-678-9012',address: 'city1'},
     ];
     return (
             <div className='supplier-screen client-screen'>
                 <div className='forme'>
                     <form action="" className='formulaire'>
                         <div className='title-input'>
-                            <h5>Name</h5>
+                            <h5>First name</h5>
                             <input type="text" placeholder='Please enter the name ...'/>
                         </div>
                         <div className='title-input'>
-                            <h5>First name</h5>
+                            <h5>Last name</h5>
                             <input type="text" placeholder='Please enter the first name ...'/>
                         </div>
                         <div className='title-input'>
@@ -40,7 +40,8 @@ function SupplierPage() {
                 <div className='ttable'>
                     <table>
                         <tr>
-                            <th>Name</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
                             <th>Email</th>
                             <th>Phone</th>
                             <th>Address</th>
@@ -49,7 +50,8 @@ function SupplierPage() {
 
                         {suppliers.map(supplier => (
                             <tr key={supplier.id}>
-                                <td>{supplier.name}</td>
+                                <td>{supplier.firstname}</td>
+                                <td>{supplier.lastname}</td>
                                 <td>{supplier.email}</td>
                                 <td>{supplier.phone}</td>
                                 <td>{supplier.address}</td>

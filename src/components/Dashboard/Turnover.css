@@ -2,6 +2,8 @@
 {
     display: flex;
     justify-content: space-around;
+    margin-bottom: auto;
+    bottom: 100%;
 }
 .graph-container
 {

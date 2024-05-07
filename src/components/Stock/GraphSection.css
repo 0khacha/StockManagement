@@ -60,14 +60,13 @@
 .product-details ul li .item-value {
     text-align: right;
 }
-
-/* Position the legend to the left */
 .Cergraph-container {
     padding: 20px;
     background-color: white;
     display: flex;
-    justify-content: center; /* Center items horizontally */
-    align-items: center; /* Center items vertically */
+    flex-direction: column; /* Change flex direction to column */
+    align-items: center;
+    justify-content: center; /* Center items vertically */
     border: 1px solid lightgray;
     border-radius: 10px;
     width: 30%; /* Adjust width as needed */
@@ -76,4 +75,14 @@
 
 .Tubercle {
     width: 80%; /* Adjust width as needed */
+}
+
+.Cergraph-container h3 {
+    text-align: left; /* Align text to the left */
+    left: 100%;
+    margin-right: auto;
+    font-weight: 600;
+    margin-bottom: 10px; /* Adjust margin as needed */
+    padding-bottom: 20px;
+    border-bottom: 1.5px solid gray;
 }
