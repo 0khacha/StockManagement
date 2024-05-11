@@ -11,7 +11,7 @@ import Orders from "./components/Orders/Orders";
 import Article from "./components/Article/Article";
 import Sales from "./components/Sales/Sales";
 import Stock from "./pages/Stock/Stock";
-
+import Settings from './pages/Settings/Settings'
 
 
 function App() {
@@ -27,6 +27,7 @@ function App() {
                 <Route  path="/articles" element={<Article/>} />
                 <Route  path="/sales" element={<Sales/>} />
                 <Route  path="/stock" element={<Stock/>} />
+                <Route  path="/settings" element={<Settings/>} />
             </Routes>
         </Router>
     );
