@@ -1,0 +1,157 @@
+.header {
+    background-color: #FFFFFF;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 48px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add shadow */
+    margin: 0 0 30px 5em;
+
+}
+
+.search-container {
+    margin-left: 25%;
+    position: relative;
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    height: 30px;
+    background: #F5F5F5;
+    border: 1px solid #DDD;
+    border-radius: 5px;
+    width: 100%;
+    padding: 10px 60px;
+
+}
+
+.search-input:focus {
+    outline: none;
+}
+
+.search-input {
+    text-align: center;
+    border: none;
+    background: transparent;
+    width: 100%;
+    padding: 10px 25px;
+}
+
+
+.feather-icon {
+    width: 1.2em;
+    height: 1.2em;
+}
+
+.search-icon
+{
+    color: gray;
+    cursor: pointer;
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+
+}
+.connexion-container {
+    display: flex;
+    align-items: center;
+    font-family: 'Poppins', sans-serif;
+    width: 100% ;
+
+}
+
+.notifaction-container {
+    margin-right: 10px; /* Adjust as needed */
+    cursor: pointer;
+    border-color: black;
+
+}
+.connexion-content {
+     display: flex;
+     align-items: center;
+     border: 2px none grey;
+     border-left-style: solid;
+     margin-right: 5px;
+    height: 20px;
+
+ }
+
+.user-info {
+
+    margin-left: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.user-info img {
+    border-radius: 50%;
+    width: 30px; /* Adjust size as needed */
+    height: 30px; /* Adjust size as needed */
+    margin-right: 10px;
+}.dropdown-container {
+     position: relative;
+     display: inline-block; /* Ensures the container only takes the width it needs */
+
+ }
+
+.chevronDown-icon,.chevronUp-icon {
+    cursor: pointer; /* Ensure cursor changes to pointer when hovering */
+    margin-right: 5px;
+    margin-left: 5px;
+}
+
+.dropdown-content {
+    margin-top: 15px;
+    margin-right: 20px;
+    border: none;
+    display: none;
+    position: absolute;
+    right: 20px;
+    background:#D9D9D9;
+    z-index: 1;
+    text-decoration: none;
+    transition: .5s;
+
+}
+.dropdown-content::after {
+    content: '';
+    position: absolute;
+    bottom: 100%; /* Position the arrow above the content */
+    right: 10px; /* Adjust the position of the arrow */
+    border-width: 8px;
+    border-style: solid;
+    border-color: #DDD transparent transparent transparent;
+}.dropdown-content ul {
+     list-style-type: none;
+     padding: 0;
+     margin: 0;
+     display: flex; /* Use flexbox */
+     flex-direction: column; /* Align items vertically */
+     align-items: center; /* Center items horizontally */
+     width: 100px;
+     border: 3px none black;
+     border-right-style: solid;
+ }
+
+.dropdown-content ul li {
+    padding: 5px 0;
+    width: 100%; /* Make the list items take up full width */
+    text-align: center; /* Center text */
+
+
+
+}
+
+.dropdown-content ul li:hover {
+
+    cursor: pointer; /* Change cursor style when hovering */
+    background: rgba(128, 128, 128, 0.76);
+}
+
+.dropdown-container:hover .dropdown-content {
+    display: block;
+}
+.dropdown-content ul li .feather-icon
+{
+    margin-right: 10px;
+}
