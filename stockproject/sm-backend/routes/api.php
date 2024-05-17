@@ -2,17 +2,17 @@
 
 
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\clientController;
 use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\clientController;
 
 Route::get('/user', function (Request $request) {
   return $request->user();
 });
 
-
-use App\Http\Controllers\UserController;
 
 Route::get('/user', [UserController::class, 'getUserInfo']);
 
@@ -21,8 +21,6 @@ Route::get('/user', [UserController::class, 'getUserInfo']);
 
 Route::post('register', [\App\Http\Controllers\Auth\RegisteredUserController::class, 'register']);
 // routes/api.php
-
-use App\Http\Controllers\Auth\LoginController;
 
 // routes/api.php
 

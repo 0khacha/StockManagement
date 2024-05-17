@@ -1,8 +1,10 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Models\Client;
 use Illuminate\Http\Request;
-use App\Models\Client; // Assuming you have a Client model
+
+// Assuming you have a Client model
 
 class clientController extends Controller
 {
