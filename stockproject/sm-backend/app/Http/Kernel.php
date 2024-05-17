@@ -34,7 +34,6 @@ class Kernel extends HttpKernel
         ],
 
         'api' => [
-
             // Middleware for API routes
             \Fruitcake\Cors\HandleCors::class,
             'throttle:api',
