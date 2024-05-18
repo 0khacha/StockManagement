@@ -1,5 +1,7 @@
-import axios from "axios";
+import axios from 'axios';
+
 export const api = axios.create({
     baseURL: import.meta.env.VITE_BACKEND_URL,
-    withCredentials: true,
-})
+    withCredentials: true, // This is necessary for Sanctum
+});
+export default api;

@@ -1,32 +1,35 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Sidebar from './components/sidebar/Sidebar';
 import Dashboard from './pages/Dashboard/Dashboard';
 import Client from './pages/Client/Client';
 import Header from './components/Header/Header';
-import Supplier from "./components/Suppliers/Supplier";
-import Orders from "./components/Orders/Orders";
-import Article from "./components/Article/Article";
-import Sales from "./components/Sales/Sales";
-import Stock from "./pages/Stock/Stock";
+import Supplier from './components/Suppliers/Supplier';
+import Orders from './components/Orders/Orders';
+import Article from './components/Article/Article';
+import Sales from './components/Sales/Sales';
+import Stock from './pages/Stock/Stock';
 import Settings from './pages/Settings/Settings';
-import Login from "./pages/Login/Login";
+import Login from './pages/Login/Login';
+import {AuthProvider, useAuth} from "./AuthProvider.jsx"; // Ensure the correct import path
 
 function App() {
-    const [isLoggedIn, setIsLoggedIn] = useState(true);
+    return (
+        <AuthProvider>
+            <Router>
+                <AppRoutes />
+            </Router>
+        </AuthProvider>
+    );
+}
 
-    const handleLogin = () => {
-        setIsLoggedIn(true);
-    };
-
-    const handleLogout = () => {
-        setIsLoggedIn(false);
-    };
+const AppRoutes = () => {
+    const { isLoggedIn } = useAuth();
 
     return (
-        <Router>
+        <>
             {isLoggedIn && <Sidebar />}
-            {isLoggedIn && <Header onLogout={handleLogout} />}
+            {isLoggedIn && <Header />}
             <Routes>
                 {isLoggedIn ? (
                     <>
@@ -40,12 +43,14 @@ function App() {
                         <Route path="/settings" element={<Settings />} />
                     </>
                 ) : (
-                    <Route path="/" element={<Navigate to="/signup" />} />
+                    <>
+                        <Route path="/login" element={<Login />} />
+                        <Route path="*" element={<Navigate to="/login" />} />
+                    </>
                 )}
-                <Route path="/signup" element={<Login onLogin={handleLogin} />} />
             </Routes>
-        </Router>
+        </>
     );
-}
+};
 
 export default App;
