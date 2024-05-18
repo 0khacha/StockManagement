@@ -5,19 +5,14 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
+use App\Models\User;
 
 class LoginController extends Controller
 {
-    /**
-     * Handle a login request to the application.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function login(Request $request)
     {
-        // Validate the request data
         $validator = Validator::make($request->all(), [
             'email' => 'required|email',
             'password' => 'required',
@@ -27,28 +22,58 @@ class LoginController extends Controller
             return response()->json(['errors' => $validator->errors()], 422);
         }
 
-        // Attempt to log in the user
-        $credentials = $request->only('email', 'password');
-        if (Auth::attempt($credentials)) {
-            // Authentication passed
+        if (Auth::attempt($request->only('email', 'password'))) {
             $user = Auth::user();
-            return response()->json(['message' => 'Login successful', 'user' => $user], 200);
-        }
+            $token = $user->createToken('auth-token')->plainTextToken;
 
-        // Authentication failed
-        return response()->json(['error' => 'Invalid credentials'], 401);
+            return response()->json([
+                'message' => 'Login successful',
+                'user' => $user,
+                'token' => $token,
+            ], 200);
+        } else {
+            return response()->json(['error' => 'Invalid credentials'], 401);
+        }
     }
 
-    /**
-     * Log the user out of the application.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function logout(Request $request)
     {
-        Auth::logout();
+        $user = $request->user();
 
-        return response()->json(['message' => 'Logout successful'], 200);
+        if ($user) {
+            // Revoke all tokens for the user (more secure)
+            $user->tokens()->delete();
+            Log::info('User logged out.', ['user' => $user]);
+            return response()->json(['message' => 'Logout successful'], 200);
+        } else {
+            return response()->json(['message' => 'User not authenticated'], 401);
+        }
+    }
+
+    public function user(Request $request)
+    {
+        Log::info('User request received.', ['user' => $request->user()]);
+        return response()->json($request->user());
+    }
+
+    public function updateUser(Request $request)
+    {
+        $user = Auth::user();
+
+        $validator = Validator::make($request->all(), [
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users,email,'.$user->id,
+            'phone' => 'nullable|string|max:20',
+            // Add validation rules for other fields as needed
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $user->update($request->all());
+
+        return response()->json(['message' => 'User data updated successfully', 'user' => $user], 200);
     }
 }

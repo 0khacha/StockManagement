@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -9,17 +10,17 @@ class User extends Authenticatable
 {
     use HasApiTokens, Notifiable; // Add HasApiTokens trait to the list of traits used by the model
 
-
-
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
+    protected $fillable = ['name', 'email', 'password']; // Replace with specific fields you allow mass assignment for
+
     protected $table = 'users';
-    // Define user role constants
-    const ROLE_USER = 'user';
-    const ROLE_ADMIN = 'admin';
+    // Define user role constants (optional, uncomment if using)
+    // const ROLE_USER = 'user';
+    // const ROLE_ADMIN = 'admin';
 
     /**
      * The attributes that should be hidden for serialization.
@@ -54,9 +55,11 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
     public function getProfilePhotoUrlAttribute()
     {
-        // Logic to return the profile photo URL attribute
-        return $this->profile_photo_url;
+        // Implement logic to return the actual URL of the user's profile photo
+        // This might involve accessing a database field, a separate storage system, or a default placeholder
+        return 'https://example.com/default-profile-photo.png'; // Example placeholder
     }
 }
