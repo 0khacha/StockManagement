@@ -1,0 +1,25 @@
+.header-title{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+.arrow-down{
+    width: 20px;
+    cursor: pointer;
+}
+.table-stock{
+    width: 100%;
+}
+.image-perfume{
+    width: 50px;
+}
+.description{
+    width: 20%;
+    text-align: justify;
+    font-size: 13px;
+}
+table{
+    width: 100%;
+}
+

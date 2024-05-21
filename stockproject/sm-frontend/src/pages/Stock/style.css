@@ -1,0 +1,8 @@
+.stock-page
+{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    margin-left: 9em;
+    margin-right: 3em;
+}
