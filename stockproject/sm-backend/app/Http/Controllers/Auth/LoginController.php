@@ -60,20 +60,30 @@ class LoginController extends Controller
     {
         $user = Auth::user();
 
+        // Validate the input fields
         $validator = Validator::make($request->all(), [
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
+            'first_name' => 'string|max:255',
+            'last_name' => 'string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,'.$user->id,
-            'phone' => 'nullable|string|max:20',
-            // Add validation rules for other fields as needed
+            'phone_number' => 'string|max:20',
+            'image' => 'nullable|string', // Assuming the image field will contain the path to the image
         ]);
 
+        // Return validation errors if any
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
 
+        // Update other user information
         $user->update($request->all());
+
+        // Save the user data
+        $user->save();
 
         return response()->json(['message' => 'User data updated successfully', 'user' => $user], 200);
     }
+
+
+
+
 }

@@ -1,35 +1,144 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Edit, Trash2 } from "react-feather";
+import axios from 'axios';
 
 function Orders() {
-    const Orders = [
-        { id: 1, article: 'Article 1', supplier: 'Supplier 1', quantity: 10, otherInfo: 'Info 1' },
-        { id: 2, article: 'Article 2', supplier: 'Supplier 2', quantity: 20, otherInfo: 'Info 2' },
-        { id: 3, article: 'Article 3', supplier: 'Supplier 3', quantity: 30, otherInfo: 'Info 3' },
-        { id: 4, article: 'Article 4', supplier: 'Supplier 4', quantity: 40, otherInfo: 'Info 4' },
-    ];
+    const [formData, setFormData] = useState({
+        id: '',
+        supplier: '',
+        article: '',
+        category: '',
+        quantity: '',
+        unit_price: '',
+        description: ''
+    });
+    const [suppliers, setSuppliers] = useState([]);
+    const [error, setError] = useState(null);
+    const [success, setSuccess] = useState(null);
+    const [orders, setOrders] = useState([]);
+
+    const fetchSupplier = async () => {
+        try {
+            const response = await axios.get('http://127.0.0.1:8000/api/supplier');
+            setSuppliers(Array.isArray(response.data) ? response.data : []);
+        } catch (error) {
+            setError('Error fetching supplier data');
+        }
+    };
+
+    useEffect(() => {
+        fetchOrders();
+        fetchSupplier();
+    }, []);
+
+    const fetchOrders = async () => {
+        try {
+            const response = await axios.get('http://127.0.0.1:8000/api/orders');
+            setOrders(Array.isArray(response.data) ? response.data : []);
+        } catch (error) {
+            console.error('Error fetching orders:', error);
+            setError('Error fetching orders data');
+        }
+    };
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData(prevState => ({
+            ...prevState,
+            [name]: value
+        }));
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            if (formData.id) {
+                await axios.put(`http://127.0.0.1:8000/api/orders/${formData.id}`, formData);
+                setSuccess('Order updated successfully');
+            } else {
+                await axios.post('http://127.0.0.1:8000/api/orders', formData);
+                setSuccess('Order added successfully');
+            }
+            fetchOrders();
+            resetForm();
+        } catch (error) {
+            console.error('Error submitting form data:', error);
+            setError('Error submitting form data');
+        }
+    };
+
+    const handleEdit = (order) => {
+        setFormData({ ...order });
+    };
+
+    const handleDelete = async (orderId) => {
+        try {
+            await axios.delete(`http://127.0.0.1:8000/api/orders/${orderId}`);
+            fetchOrders();
+            setSuccess('Order deleted successfully');
+        } catch (error) {
+            console.error('Error deleting order:', error);
+            setError('Error deleting order');
+        }
+    };
+
+    const resetForm = () => {
+        setFormData({
+            id: '',
+            supplier: '',
+            article: '',
+            category: '',
+            quantity: '',
+            unit_price: '',
+            description: ''
+        });
+    };
 
     return (
-        <div className='supplier-screen client-screen'>
+        <div className='orders-screen client-screen'>
             <div className='forme'>
-                <form action="" className='formulaire'>
+                <form onSubmit={handleSubmit} className='formulaire'>
+                    {error && <p className="error-message">{error}</p>}
+                    {success && <p className="success-message">{success}</p>}
+                    <input type="hidden" name="id" value={formData.id}/>
                     <div className='title-input'>
                         <h5>Article</h5>
-                        <input type="text" placeholder='Please enter the article ...' />
+                        <input type="text" name="article" value={formData.article} onChange={handleChange}
+                               placeholder='Please enter the article ...'/>
                     </div>
                     <div className='title-input'>
                         <h5>Supplier</h5>
-                        <input type="text" placeholder='Please enter the supplier ...' />
+                        <select className={'styled-input'} name="supplier" value={formData.supplier}
+                                onChange={handleChange}>
+                            <option value="">Please select a supplier...</option>
+                            {suppliers.map(supplier => (
+                                <option key={supplier.id} value={`${supplier.first_name} ${supplier.last_name}`}>
+                                    {`${supplier.first_name} ${supplier.last_name}`}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+                    <div className='title-input'>
+                        <h5>Category</h5>
+                        <input type="text" name="category" value={formData.category} onChange={handleChange}
+                               placeholder='Please enter the category ...'/>
                     </div>
                     <div className='title-input'>
                         <h5>Quantity</h5>
-                        <input type="text" placeholder='Please enter the quantity ...' />
+                        <input type="number" name="quantity" value={formData.quantity} onChange={handleChange}
+                               placeholder='Please enter the quantity ...'/>
                     </div>
                     <div className='title-input'>
-                        <h5>Other Information</h5>
-                        <input type="text" placeholder='Please enter other information ...' />
+                        <h5>Unit Price</h5>
+                        <input type="number" name="unit_price" value={formData.unit_price} onChange={handleChange}
+                               placeholder='Please enter the unit price ...'/>
                     </div>
-                    <button className='validate'>Validate</button>
+                    <div className='title-input'>
+                        <h5>Description</h5>
+                        <input type="text" name="description" value={formData.description} onChange={handleChange}
+                               placeholder='Please enter the description ...'/>
+                    </div>
+                    <button type="submit" className='validate'>{formData.id ? 'Update' : 'Add'}</button>
                 </form>
             </div>
             <div className='ttable'>
@@ -38,22 +147,29 @@ function Orders() {
                     <tr>
                         <th>Article</th>
                         <th>Supplier</th>
+                        <th>Category</th>
                         <th>Quantity</th>
+                        <th>Unit Price</th>
                         <th>Description</th>
                         <th>Action</th>
                     </tr>
                     </thead>
                     <tbody>
-                    {Orders.map(Orders => (
-                        <tr key={Orders.id}>
-                            <td>{Orders.article}</td>
-                            <td>{Orders.supplier}</td>
-                            <td>{Orders.quantity}</td>
-                            <td>{Orders.otherInfo}</td>
+                    {orders.map(order => (
+                        <tr key={order.id}>
+                            <td>{order.article}</td>
+                            <td>{order.supplier}</td>
+                            <td>{order.category}</td>
+                            <td>{order.quantity}</td>
+                            <td>{order.unit_price}</td>
+                            <td>{order.description}</td>
                             <td>
-                                <div className={"action"}>
-                                    <button className={"edit"}><Edit className="nav__toggle icon-edit" /></button>
-                                    <button className={"delete"}><Trash2 className="nav__toggle icon-delete" />
+                                <div className="action">
+                                    <button className="edit" onClick={() => handleEdit(order)}>
+                                        <Edit className="nav__toggle icon-edit" />
+                                    </button>
+                                    <button className="delete" onClick={() => handleDelete(order.id)}>
+                                        <Trash2 className="nav__toggle icon-delete" />
                                     </button>
                                 </div>
                             </td>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom'; // Import Link from react-router-dom
+import {Link, useNavigate} from 'react-router-dom'; // Import Link from react-router-dom
 import './styles.css'; // Import your CSS file
 import logo from '../images/logo.png';
 import {
@@ -19,11 +19,14 @@ import {
     DollarSign // New icon for Sales
 } from 'react-feather';
 import Header from "../Header/Header";
+import {useAuth} from "../../AuthProvider.jsx";
 
 
 function Sidebar() {
     const [isNavOpen, setIsNavOpen] = useState(false);
     const [activeLink, setActiveLink] = useState("Dashboard"); // Set Dashboard as active by default
+    const { logout } = useAuth(); // Access logout function from useAuth
+    const navigate = useNavigate(); // Use navigate hook for redirection
 
 
     const toggleMenu = () => {
@@ -38,6 +41,14 @@ function Sidebar() {
     const toggleCollapse = (e) => {
         e.currentTarget.nextSibling.classList.toggle('showCollapse');
         e.currentTarget.classList.toggle('rotate');
+    };
+    const handleLogout = async () => {
+        try {
+            await logout(); // Call logout function
+            navigate('/login'); // Redirect to login page after logout
+        } catch (error) {
+            console.error('Logout error:', error);
+        }
     };
 
     return (
@@ -98,7 +109,7 @@ function Sidebar() {
                             </Link>
                         </div>
                     </div>
-                    <Link to="/logout" className="nav__link">
+                    <Link to="/login" className="nav__link" onClick={handleLogout}>
                         <LogOut className="nav__icon" />
                         <span className="nav__name">Log Out</span>
                     </Link>

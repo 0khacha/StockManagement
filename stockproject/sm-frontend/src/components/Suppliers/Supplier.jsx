@@ -89,11 +89,11 @@ function SupplierPage() {
                         <h5>Address</h5>
                         <input type="text" name="address" value={formData.address} onChange={(e) => setFormData({ ...formData, address: e.target.value })} placeholder='Please enter the address ...'/>
                     </div>
-                    <button type="submit" className='validate'>Validate</button>
+                    <button type="submit" className='validate'>{formData.id ? 'Update' : 'Add'}</button>
                 </form>
             </div>
             <div className='ttable'>
-                <table>
+            <table>
                     <thead>
                     <tr>
                         <th>First Name</th>

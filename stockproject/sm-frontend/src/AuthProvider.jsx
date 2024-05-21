@@ -80,35 +80,11 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
-    const updateUser = async (userData) => {
-        try {
-            const token = window.localStorage.getItem('token');
-            if (!token) {
-                throw new Error('No token found');
-            }
-            const response = await axios.put('http://127.0.0.1:8000/api/user', userData, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            });
-            if (response.status === 200) {
-                setUser(response.data.user);
-                console.log('User data updated successfully');
-            } else {
-                throw new Error('Failed to update user data');
-            }
-        } catch (error) {
-            console.error('Failed to update user data', error);
-            throw error;
-        }
-    };
-
     return (
-        <AuthContext.Provider value={{ isLoggedIn, user, login, logout, getUserData, updateUser }}>
+        <AuthContext.Provider value={{ isLoggedIn, user, login, logout, getUserData }}>
             {children}
         </AuthContext.Provider>
     );
 };
 
-export let useAuth;
-useAuth = () => useContext(AuthContext);
+export const useAuth = () => useContext(AuthContext);

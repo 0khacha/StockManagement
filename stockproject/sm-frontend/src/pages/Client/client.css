@@ -93,3 +93,31 @@ th, td {
     justify-content: center;
     align-items: center;
 }
+.styled-input {
+    width: 100%;
+    padding: 8px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+}
+
+/* Additional styling for select */
+.styled-input select {
+    -webkit-appearance: none;  /* Remove default arrow */
+    -moz-appearance: none;  /* Remove default arrow */
+    appearance: none;  /* Remove default arrow */
+    background: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4 5"><path fill="none" stroke="gray" stroke-width=".8" d="M0 0l2 2 2-2"/></svg>') no-repeat right 10px center;
+    background-size: 10px;
+}
+.error-message {
+    color: red;
+    font-weight: bold;
+
+}
+.success-message
+{
+    color: green;
+    font-weight: bold;
+
+}

@@ -18,6 +18,7 @@ class ArticleController extends Controller
         $article = new Article();
         $article->id = $request->input('id');
         $article->article = $request->input('article');
+        $article->supplier = $request->input('supplier');
         $article->category = $request->input('category');
         $article->quantity = $request->input('quantity');
         $article->unit_price = $request->input('unit_price');

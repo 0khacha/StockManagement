@@ -15,7 +15,7 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
-    protected $fillable = ['name', 'email', 'password']; // Replace with specific fields you allow mass assignment for
+    protected $fillable = ['first_name','last_name', 'email', 'password','phone_number','image']; // Replace with specific fields you allow mass assignment for/ Replace with specific fields you allow mass assignment for
 
     protected $table = 'users';
     // Define user role constants (optional, uncomment if using)
@@ -60,6 +60,6 @@ class User extends Authenticatable
     {
         // Implement logic to return the actual URL of the user's profile photo
         // This might involve accessing a database field, a separate storage system, or a default placeholder
-        return 'https://example.com/default-profile-photo.png'; // Example placeholder
+        return 'https://upload.wikimedia.org/wikipedia/commons/a/ac/Default_pfp.jpg'; // Example placeholder
     }
 }

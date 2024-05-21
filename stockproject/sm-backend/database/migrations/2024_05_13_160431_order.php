@@ -13,8 +13,6 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
                                        $table->id();
-                                       $table->bigInteger('id_article')->unsigned(); // Foreign key without auto-increment
-                                       $table->bigInteger('id_supplier')->unsigned();
                                        $table->string('article');
                                        $table->string('category');
                                        $table->integer('quantity');
