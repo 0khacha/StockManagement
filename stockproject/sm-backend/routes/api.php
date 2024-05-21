@@ -4,6 +4,8 @@
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\clientController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\SaleController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -24,8 +26,8 @@ use App\Http\Controllers\AuthController;
 Route::post('/login', [LoginController::class, 'login']);
 Route::middleware('auth:sanctum')->post('/logout', [LoginController::class, 'logout']);
 Route::middleware('auth:sanctum')->get('/user', [LoginController::class, 'user']);
-Route::middleware('auth:sanctum')->put('/user', [LoginController::class, 'updateUser']);
-
+Route::middleware('auth:sanctum')->put('/updateUser', [LoginController::class, 'updateUser']);
+Route::middleware('auth:sanctum')->put('/updatePassword', [UserController::class, 'updatePassword']);
 
 
 
@@ -72,6 +74,25 @@ Route::put('/article/{id}', [ArticleController::class, 'update'])->name('article
 Route::delete('/article/{id}', [ArticleController::class, 'destroy'])->name('article.destroy'); // DELETE request with {id} parameter
 
 
+//order api
 
+Route::get('/orders', [OrderController::class, 'index'])->name('article.index'); // GET request
+Route::get('/orders/create', [OrderController::class, 'create'])->name('article.create'); // GET request
+Route::post('/orders', [OrderController::class, 'store'])->name('article.store'); // POST request
+Route::get('/orders/{id}', [OrderController::class, 'show'])->name('article.show'); // GET request with {id} parameter
+Route::get('/orders/{id}/edit', [OrderController::class, 'edit'])->name('article.edit'); // GET request with {id} parameter
+Route::put('/orders/{id}', [OrderController::class, 'update'])->name('article.update'); // PUT request with {id} parameter
+Route::delete('/orders/{id}', [OrderController::class, 'destroy'])->name('article.destroy'); // DELETE request with {id} parameter
+//sales api
+Route::get('/sales', [SaleController::class, 'index'])->name('article.index'); // GET request
+Route::get('/sales/create', [SaleController::class, 'create'])->name('article.create'); // GET request
+Route::post('/sales', [SaleController::class, 'store'])->name('article.store'); // POST request
+Route::get('/sales/{id}', [SaleController::class, 'show'])->name('article.show'); // GET request with {id} parameter
+Route::get('/sales/{id}/edit', [SaleController::class, 'edit'])->name('article.edit'); // GET request with {id} parameter
+Route::put('/sales/{id}', [SaleController::class, 'update'])->name('article.update'); // PUT request with {id} parameter
+Route::delete('/sales/{id}', [SaleController::class, 'destroy'])->name('article.destroy'); // DELETE request with {id} parameter
+
+//stock api
+Route::get('/stock', [\App\Http\Controllers\StockController::class, 'index'])->name('article.index'); // GET request
 
 

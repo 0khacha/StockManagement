@@ -10,7 +10,24 @@
     grid-gap: 20px;
 
 }
+.new-password-dev{
+    display: flex;
+    gap: 5px;
+}
+.password-inputs{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.title-password{
+    margin-bottom: 10px;
+    margin-top: 0;
+}
 
+.name_full{
+    display: flex;
+    gap: 5px;
+}
 .setting-page section {
     border: 1px solid #ccc;
     padding: 20px;
