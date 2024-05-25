@@ -1,16 +1,95 @@
-import React from 'react';
-import {Bell} from "react-feather";
+import React, { useEffect, useState, useRef } from 'react';
+import { Bell } from "react-feather";
+import axios from "axios";
 
 const Notification = () => {
-    const handlNotification = () => {
-        // Handle notification logic here
+    const [stockData, setStockData] = useState([]);
+    const [unreadNotification, setUnreadNotification] = useState(false);
+    const [dropdownOpen, setDropdownOpen] = useState(false);
+    const dropdownRef = useRef(null);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const token = localStorage.getItem('token');
+                const stockResponse = await axios.get('http://127.0.0.1:8000/api/stock', {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
+                setStockData(stockResponse.data.stock);
+
+                // Check for unread notifications based on out-of-stock or expiring soon items
+                const hasUnread = stockResponse.data.stock.some(article => {
+                    const expirationDate = new Date(article.validity_period);
+                    const currentDate = new Date();
+                    const daysUntilExpiration = Math.ceil((expirationDate.getTime() - currentDate.getTime()) / (1000 * 60 * 60 * 24));
+                    return article.quantity < 10 || (daysUntilExpiration <= 31 && daysUntilExpiration >= 0);
+                });
+                setUnreadNotification(hasUnread);
+            } catch (error) {
+                console.error('Error fetching stock data:', error);
+            }
+        };
+
+        fetchData();
+        const intervalId = setInterval(fetchData, 5 * 60 * 1000);
+
+        return () => clearInterval(intervalId);
+    }, []);
+
+    const handleNotificationClick = () => {
+        setDropdownOpen(!dropdownOpen);
+        setUnreadNotification(false);
     };
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+                setDropdownOpen(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [dropdownRef]);
+
+    // Filter stock data to include items that are either out of stock or expiring soon (within the next month)
+    const filteredStockData = stockData.filter(article => {
+        const expirationDate = new Date(article.validity_period);
+        const currentDate = new Date();
+        const daysUntilExpiration = Math.ceil((expirationDate.getTime() - currentDate.getTime()) / (1000 * 60 * 60 * 24));
+        return article.quantity < 10 || (daysUntilExpiration <= 31 && daysUntilExpiration >= 0);
+    });
+
+    const notificationCount = filteredStockData.length;
+
     return (
-        <div>
-            <div className='notifaction-container' onClick={handlNotification}>
-                <i className="fas fa-home"></i>
-                <Bell className='notification-icon feather-icon '/>
+        <div className='notification-container' ref={dropdownRef}>
+            <div style={{ position: 'relative', cursor: 'pointer' }} onClick={handleNotificationClick}>
+                <Bell className='notification-icon feather-icon' style={{ marginRight: '10px' }} />
+                {unreadNotification && (
+                    <div className='notification-count'>{notificationCount}</div>
+                )}
             </div>
+            {dropdownOpen && (
+                <div className="dropdown-message">
+                    {notificationCount > 0 ? (
+                        filteredStockData.map(article => (
+                            <div key={article.id} className="notification-item">
+                                {article.quantity < 10 && <div>{article.article} is out of stock</div>}
+                                {new Date(article.validity_period) <= new Date(new Date().getTime() + 31 * 24 * 60 * 60 * 1000) && (
+                                    <div>{`${article.article} is expiring soon (${article.validity_period})`}</div>
+                                )}
+                            </div>
+                        ))
+                    ) : (
+                        <div className="notification-item">No notifications</div>
+                    )}
+                </div>
+            )}
         </div>
     );
 };

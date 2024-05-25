@@ -4,17 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
     public function index()
     {
-        $orders = Order::all();
-        return response()->json($orders);
+        $user = Auth::user();
+        $orders = Order::where('user_id', $user->id)->get();
+        return response()->json(['orders' => $orders], 200);
     }
 
     public function store(Request $request)
     {
+        $user = Auth::user();
         $order = new Order();
         $order->article = $request->input('article');
         $order->supplier = $request->input('supplier');
@@ -22,8 +25,7 @@ class OrderController extends Controller
         $order->quantity = $request->input('quantity');
         $order->unit_price = $request->input('unit_price');
         $order->description = $request->input('description');
-        $order->created_at = now();
-        $order->updated_at = now();
+        $order->user_id = $user->id;
         $order->save();
 
         return response()->json(['success' => 'Order created successfully', 'order' => $order], 201);
@@ -31,20 +33,21 @@ class OrderController extends Controller
 
     public function show($id)
     {
-        $order = Order::findOrFail($id);
-        return response()->json($order);
+        $user = Auth::user();
+        $order = Order::where('id', $id)->where('user_id', $user->id)->firstOrFail();
+        return response()->json(['order' => $order], 200);
     }
 
     public function update(Request $request, $id)
     {
-        $order = Order::findOrFail($id);
+        $user = Auth::user();
+        $order = Order::where('id', $id)->where('user_id', $user->id)->firstOrFail();
         $order->article = $request->input('article');
         $order->supplier = $request->input('supplier');
         $order->category = $request->input('category');
         $order->quantity = $request->input('quantity');
         $order->unit_price = $request->input('unit_price');
         $order->description = $request->input('description');
-        $order->updated_at = now();
         $order->save();
 
         return response()->json(['success' => 'Order updated successfully', 'order' => $order]);
@@ -52,7 +55,8 @@ class OrderController extends Controller
 
     public function destroy($id)
     {
-        $order = Order::findOrFail($id);
+        $user = Auth::user();
+        $order = Order::where('id', $id)->where('user_id', $user->id)->firstOrFail();
         $order->delete();
         return response()->json(['success' => 'Order deleted successfully']);
     }

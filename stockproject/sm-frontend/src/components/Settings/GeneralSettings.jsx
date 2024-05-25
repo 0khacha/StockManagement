@@ -1,9 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import './GeneralSettings.css';
 import userimg from '../images/user.png';
 import { useAuth } from '../../AuthProvider.jsx';
 import axios from 'axios';
 import { sha512 } from "js-sha512";
+import ConfirmationModal from "./ConfirmationModal.jsx";
 
 const GeneralSettings = () => {
     const { user } = useAuth();
@@ -20,6 +21,13 @@ const GeneralSettings = () => {
         new_password_confirmation: '',
     });
     const [inEditPassword, setInEditPassword] = useState(false);
+    const [isDeleting, setIsDeleting] = useState(false);
+    const [deleteError, setDeleteError] = useState(null);
+    const [deleteButtonClick, setDeleteButtonClick] = useState(false);
+    const [confirmationPassword, setConfirmationPassword] = useState('');
+
+    const [navigateToLogin, setNavigateToLogin] = useState(false);
+    const [isConfirmingDelete, setIsConfirmingDelete] = useState(false);
 
     useEffect(() => {
         if (user) {
@@ -32,6 +40,12 @@ const GeneralSettings = () => {
             });
         }
     }, [user]);
+
+    useEffect(() => {
+        if (navigateToLogin) {
+            window.location.href = '/login';
+        }
+    }, [navigateToLogin]);
 
     const handleChange = (e) => {
         if (e.target.name === 'image') {
@@ -70,7 +84,7 @@ const GeneralSettings = () => {
             }
             const response = await axios.put('http://127.0.0.1:8000/api/updateUser', formData, {
                 headers: {
-                    Authorization: `Bearer ${token}`
+                    Authorization:` Bearer ${token}`
                 }
             });
             if (response.status === 200) {
@@ -91,13 +105,12 @@ const GeneralSettings = () => {
                 throw new Error('No token found');
             }
 
-            // Check if new password and confirmation match
             if (passwordData.new_password !== passwordData.new_password_confirmation) {
                 throw new Error('New password and confirmation do not match');
             }
 
             const response = await axios.put('http://127.0.0.1:8000/api/updatePassword', {
-                password: sha512(passwordData.password), // Send the current password hashed
+                password: sha512(passwordData.password),
                 new_password: sha512(passwordData.new_password),
                 new_password_confirmation: sha512(passwordData.new_password_confirmation),
             }, {
@@ -120,15 +133,52 @@ const GeneralSettings = () => {
         } catch (error) {
             console.error('Failed to update password', error);
             if (error.response && error.response.data && error.response.data.message) {
-                // Display error message to the user
                 alert(error.response.data.message);
             } else if (error.message === 'New password and confirmation do not match') {
                 alert('New password and confirmation do not match. Please try again.');
             } else {
-                // Generic error message
                 alert('Failed to update password. Please try again.');
             }
         }
+    };
+
+    const handleConfirmDeleteModal = () => {
+        setDeleteButtonClick(true);
+        setIsConfirmingDelete(true);
+    }
+
+    const handleConfirmDelete = async () => {
+        try {
+            setIsDeleting(true);
+            const token = localStorage.getItem('token');
+            const response = await axios.delete('http://127.0.0.1:8000/api/delete-account', {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+                data: {
+                    password: sha512(confirmationPassword),
+                },
+            });
+            console.log('Account deleted successfully:', response.data);
+            window.location.href('/login');
+            setNavigateToLogin(true);
+
+        } catch (error) {
+            console.error('Error deleting account:', error);
+            if (error.response && error.response.data && error.response.data.error) {
+                setDeleteError(error.response.data.error);
+            } else {
+                setDeleteError('An error occurred while deleting your account. Please try again later.');
+            }
+        } finally {
+            setIsDeleting(false);
+        }
+    };
+
+    const handleCancelDelete = () => {
+        setIsConfirmingDelete(false);
+        setConfirmationPassword('');
+        setDeleteButtonClick(false);
     };
 
     const fileInputRef = useRef(null);
@@ -241,7 +291,24 @@ const GeneralSettings = () => {
                 <section className='delete-account-section'>
                     <h2>Delete Account</h2>
                     <p>If you would like to delete your account, please click the button below.</p>
-                    <button>Delete Account</button>
+                    <button onClick={handleConfirmDeleteModal}>Delete Account</button>
+                    {deleteButtonClick && (
+                        <ConfirmationModal
+                            message="Are you sure you want to delete your account?"
+                            output={isDeleting && 'Deleting account, please wait...'}
+                            result={() => deleteError ? deleteError.toString() : ''}
+                            onConfirm={handleConfirmDelete}
+                            onCancel={handleCancelDelete}
+                            passwordInput={(
+                                <input
+                                    type="password"
+                                    placeholder="Enter your password ..."
+                                    value={confirmationPassword}
+                                    onChange={(e) => setConfirmationPassword(e.target.value)}
+                                />
+                            )}
+                        />
+                    )}
                 </section>
             </section>
         </div>

@@ -86,3 +86,39 @@
     padding-bottom: 20px;
     border-bottom: 1.5px solid gray;
 }
+.product-details__item {
+    display: flex;
+    flex-direction: column;
+}
+
+.item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+
+}
+
+.item-name {
+    flex: 1;
+    cursor: pointer;
+}
+
+.item-value {
+    flex: 1;
+    text-align: right;
+}
+
+.article-names {
+    flex-direction: column;
+    padding-left: 0;
+    display: flex;
+    text-align: center;
+    font-size: small;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.article-names li {
+    margin: 0 1px;
+}

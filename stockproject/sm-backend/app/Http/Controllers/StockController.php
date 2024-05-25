@@ -2,17 +2,28 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Supplier;
 use Illuminate\Http\Request;
 use App\Models\Stock;
+use Illuminate\Support\Facades\Auth;
 
 class StockController extends Controller
 {
-    // Get all stock items
     public function index()
     {
-        $stock = Stock::all();
-        return response()->json($stock);
+        $user = Auth::user();
+        $stock = Stock::where('user_id', $user->id)->get();
+
+        $stock->transform(function($article) {
+            if ($article->picture_url) {
+                $article->image_url = url('images/' . $article->picture_url);
+            }
+            return $article;
+        });
+
+        return response()->json(['stock' => $stock], 200);
     }
+
 
     // Get a specific stock item by ID
     public function show($id)

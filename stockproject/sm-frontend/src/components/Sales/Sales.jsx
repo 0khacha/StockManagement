@@ -27,30 +27,48 @@ function SalesPage() {
 
     const fetchSales = async () => {
         try {
-            const response = await axios.get('http://127.0.0.1:8000/api/sales');
+            const token = localStorage.getItem('token');
+            const response = await axios.get('http://127.0.0.1:8000/api/sales', {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
             setSales(Array.isArray(response.data.sales) ? response.data.sales : []);
         } catch (error) {
             console.error('Error fetching sales:', error);
-            setError('Error fetching sales data');
+            setError('Erreur lors de la récupération des données des ventes');
         }
     };
 
     const fetchStock = async () => {
         try {
-            const response = await axios.get('http://127.0.0.1:8000/api/stock');
-            setStock(Array.isArray(response.data) ? response.data : []);
+            const token = localStorage.getItem('token');
+            const response = await axios.get('http://127.0.0.1:8000/api/stock', {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            setStock(Array.isArray(response.data.stock) ? response.data.stock : []);
         } catch (error) {
             console.error('Error fetching stock:', error);
-            setError('Error fetching stock data');
+            setError('Erreur lors de la récupération des données du stock');
         }
     };
 
     const fetchClients = async () => {
         try {
-            const response = await axios.get('http://127.0.0.1:8000/api/clients');
+            const token = localStorage.getItem('token');
+            const response = await axios.get('http://127.0.0.1:8000/api/clients', {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
             setClients(Array.isArray(response.data) ? response.data : []);
         } catch (error) {
-            setError('Error fetching clients data');
+            console.error('Error fetching clients:', error);
+            if (error.response && error.response.status === 401) {
+                alert('Vous n\'êtes pas autorisé. Veuillez vous connecter.');
+            }
         }
     };
 
@@ -77,35 +95,55 @@ function SalesPage() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
+            const token = localStorage.getItem('token');
+            const existingSale = sales.find(sale => sale.id === formData.id);
+            const existingQuantity = existingSale ? existingSale.quantity : 0;
             const selectedArticle = stock.find(item => item.article === formData.article);
+
             if (!selectedArticle) {
-                setError('Selected article not found in stock.');
+                setError('Article sélectionné introuvable dans le stock.');
                 return;
             }
-            if (parseInt(formData.quantity) > selectedArticle.quantity) {
-                setError('Quantity cannot exceed available stock quantity.');
+
+            const stockQuantity = selectedArticle.quantity + existingQuantity - parseInt(formData.quantity);
+            if (stockQuantity < 0) {
+                setError('La quantité ne peut pas dépasser la quantité disponible en stock.');
                 return;
             }
+
+            const dataToSend = {
+                ...formData,
+                quantity: parseInt(formData.quantity),
+                unit_price: parseFloat(formData.unit_price)
+            };
+
             if (formData.id) {
-                await axios.put(`http://127.0.0.1:8000/api/sales/${formData.id}`, formData, {
+                await axios.put(`http://127.0.0.1:8000/api/sales/${formData.id}`, dataToSend, {
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${token}`
                     }
                 });
-                setSuccess('Sale updated successfully');
+                setSuccess('Vente mise à jour avec succès');
             } else {
-                await axios.post('http://127.0.0.1:8000/api/sales', formData, {
+                await axios.post('http://127.0.0.1:8000/api/sales', dataToSend, {
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${token}`
                     }
                 });
-                setSuccess('Sale added successfully');
+                setSuccess('Vente soumise avec succès');
             }
-            fetchSales();
+
+            await fetchSales();
+            await fetchStock();
             resetForm();
         } catch (error) {
-            console.error('Error submitting form data:', error);
-            setError('Error submitting form data');
+            console.error('Erreur lors de la soumission des données du formulaire:', error);
+            setError("Erreur lors de la soumission des données du formulaire");
+            if (error.response && error.response.data) {
+                setError(error.response.data.message || "Erreur lors de la soumission des données du formulaire");
+            }
         }
     };
 
@@ -115,12 +153,17 @@ function SalesPage() {
 
     const handleDelete = async (saleId) => {
         try {
-            await axios.delete(`http://127.0.0.1:8000/api/sales/${saleId}`);
+            const token = localStorage.getItem('token');
+            await axios.delete(`http://127.0.0.1:8000/api/sales/${saleId}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
             await fetchSales();
-            setSuccess('Sale deleted successfully');
+            setSuccess('Vente supprimée avec succès');
         } catch (error) {
-            console.error('Error deleting sale:', error);
-            setError('Error deleting sale');
+            console.error('Erreur lors de la suppression de la vente:', error);
+            setError('Erreur lors de la suppression de la vente');
         }
     };
 
@@ -143,8 +186,8 @@ function SalesPage() {
                     <input type="hidden" name="id" value={formData.id} />
                     <div className='title-input'>
                         <h5>Article</h5>
-                        <select className={'styled-input'} name="article" value={formData.article} onChange={handleChange}>
-                            <option value="">Please select an article...</option>
+                        <select className='styled-input' name="article" value={formData.article} onChange={handleChange}>
+                            <option value="">Veuillez sélectionner un article...</option>
                             {stock.map(item => (
                                 <option key={item.id} value={item.article}>{item.article}</option>
                             ))}
@@ -152,33 +195,32 @@ function SalesPage() {
                     </div>
                     <div className='title-input'>
                         <h5>Description</h5>
-                        <input type="text" name="description" value={formData.description} onChange={handleChange} placeholder='Please enter the description ...' />
+                        <input type="text" name="description" value={formData.description} onChange={handleChange} placeholder='Veuillez saisir la description...' />
                     </div>
                     <div className='title-input'>
                         <h5>Client</h5>
-                        <select className={'styled-input'} name="client" value={formData.client} onChange={handleChange}>
-                            <option value="">Please select a client...</option>
+                        <select className='styled-input' name="client" value={formData.client} onChange={handleChange}>
+                            <option value="">Veuillez sélectionner un client...</option>
                             {clients.map(client => (
                                 <option key={client.id} value={`${client.first_name} ${client.last_name}`}>
                                     {`${client.first_name} ${client.last_name}`}
                                 </option>
-
                             ))}
                         </select>
                     </div>
                     <div className='title-input'>
-                        <h5>Quantity</h5>
-                        <input type="number" name="quantity" value={formData.quantity} onChange={handleChange} placeholder='Please enter the quantity ...' />
+                        <h5>Quantité</h5>
+                        <input type="number" name="quantity" value={formData.quantity} onChange={handleChange} placeholder='Veuillez saisir la quantité...' />
                     </div>
                     <div className='title-input'>
-                        <h5>Unit Price</h5>
-                        <input type="number" name="unit_price" value={formData.unit_price} onChange={handleChange} placeholder='Please enter the unit price ...' />
+                        <h5>Prix unitaire</h5>
+                        <input type="number" name="unit_price" value={formData.unit_price} onChange={handleChange} placeholder='Veuillez saisir le prix unitaire...' />
                     </div>
                     <div className='title-input'>
-                        <h5>Category</h5>
-                        <input type="text" name="category" value={formData.category} onChange={handleChange} placeholder='Please enter the category ...' />
+                        <h5>Catégorie</h5>
+                        <input type="text" name="category" value={formData.category} onChange={handleChange} placeholder='Veuillez saisir la catégorie...' />
                     </div>
-                    <button type="submit" className='validate'>{formData.id ? 'Update' : 'Add'}</button>
+                    <button type="submit" className='validate'>{formData.id ? 'Mettre à jour' : 'Ajouter'}</button>
                 </form>
             </div>
             <div className='ttable'>
@@ -190,9 +232,9 @@ function SalesPage() {
                         <th>Article</th>
                         <th>Description</th>
                         <th>Client</th>
-                        <th>Quantity</th>
-                        <th>Unit Price</th>
-                        <th>Category</th>
+                        <th>Quantité</th>
+                        <th>Prix unitaire</th>
+                        <th>Catégorie</th>
                         <th>Action</th>
                     </tr>
                     </thead>
@@ -200,9 +242,9 @@ function SalesPage() {
                     {Array.isArray(sales) && sales.length > 0 ? (
                         sales.map(sale => (
                             <tr key={sale.id}>
-                                <td>{sale.article}</td>
-                                <td>{sale.description}</td>
-                                <td>{sale.client}</td>
+                                <td>{sale.article || 'N/A'}</td>
+                                <td>{sale.description || 'N/A'}</td>
+                                <td>{sale.client || 'N/A'}</td>
                                 <td>{sale.quantity}</td>
                                 <td>{sale.unit_price}</td>
                                 <td>{sale.category}</td>
@@ -220,7 +262,7 @@ function SalesPage() {
                         ))
                     ) : (
                         <tr>
-                            <td colSpan={7}>No sales found.</td>
+                            <td colSpan={7}>Aucune vente trouvée.</td>
                         </tr>
                     )}
                     </tbody>
