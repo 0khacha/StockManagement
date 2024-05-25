@@ -204,7 +204,7 @@ const GeneralSettings = () => {
                 <div className='user-email'>
                     <form onSubmit={handleSubmit}>
                         <div className="name_full">
-                            <div>
+                            <div className={'first_name'}>
                                 <label htmlFor="first_name">First Name</label>
                                 <input
                                     type="text"
@@ -214,7 +214,7 @@ const GeneralSettings = () => {
                                     onChange={handleChange}
                                 />
                             </div>
-                            <div>
+                            <div className={'last_name'}>
                                 <label htmlFor="last_name">Last Name</label>
                                 <input
                                     type="text"

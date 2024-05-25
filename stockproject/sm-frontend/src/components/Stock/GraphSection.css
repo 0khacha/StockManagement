@@ -98,12 +98,12 @@
 
 }
 
-.item-name {
+.item-name-stock {
     flex: 1;
     cursor: pointer;
 }
 
-.item-value {
+.item-value-stock {
     flex: 1;
     text-align: right;
 }

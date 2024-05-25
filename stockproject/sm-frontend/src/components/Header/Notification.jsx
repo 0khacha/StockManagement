@@ -19,7 +19,6 @@ const Notification = () => {
                 });
                 setStockData(stockResponse.data.stock);
 
-                // Check for unread notifications based on out-of-stock or expiring soon items
                 const hasUnread = stockResponse.data.stock.some(article => {
                     const expirationDate = new Date(article.validity_period);
                     const currentDate = new Date();
@@ -56,7 +55,6 @@ const Notification = () => {
         };
     }, [dropdownRef]);
 
-    // Filter stock data to include items that are either out of stock or expiring soon (within the next month)
     const filteredStockData = stockData.filter(article => {
         const expirationDate = new Date(article.validity_period);
         const currentDate = new Date();
@@ -69,27 +67,25 @@ const Notification = () => {
     return (
         <div className='notification-container' ref={dropdownRef}>
             <div style={{ position: 'relative', cursor: 'pointer' }} onClick={handleNotificationClick}>
-                <Bell className='notification-icon feather-icon' style={{ marginRight: '10px' }} />
+                <Bell className='notification-icon' />
                 {unreadNotification && (
                     <div className='notification-count'>{notificationCount}</div>
                 )}
             </div>
-            {dropdownOpen && (
-                <div className="dropdown-message">
-                    {notificationCount > 0 ? (
-                        filteredStockData.map(article => (
-                            <div key={article.id} className="notification-item">
-                                {article.quantity < 10 && <div>{article.article} is out of stock</div>}
-                                {new Date(article.validity_period) <= new Date(new Date().getTime() + 31 * 24 * 60 * 60 * 1000) && (
-                                    <div>{`${article.article} is expiring soon (${article.validity_period})`}</div>
-                                )}
-                            </div>
-                        ))
-                    ) : (
-                        <div className="notification-item">No notifications</div>
-                    )}
-                </div>
-            )}
+            <div className={`dropdown-message ${dropdownOpen ? 'open' : ''}`}>
+                {notificationCount > 0 ? (
+                    filteredStockData.map(article => (
+                        <div key={article.id} className="notification-item">
+                            {article.quantity < 10 && <div>{article.article} is out of stock</div>}
+                            {new Date(article.validity_period) <= new Date(new Date().getTime() + 31 * 24 * 60 * 60 * 1000) && (
+                                <div>{`${article.article} is expiring soon (${article.validity_period})`}</div>
+                            )}
+                        </div>
+                    ))
+                ) : (
+                    <div className="notification-item">No notifications</div>
+                )}
+            </div>
         </div>
     );
 };

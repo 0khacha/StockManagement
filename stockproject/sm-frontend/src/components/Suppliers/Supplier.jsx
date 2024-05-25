@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Edit, Trash2 } from "react-feather";
+import { useSearch } from '../Header/SearchContext.jsx';/// Ensure the import path is correct
+
 
 function SupplierPage() {
+    const { searchQuery } = useSearch();
     const [suppliers, setSuppliers] = useState([]);
     const [formData, setFormData] = useState({
         id: '',
@@ -31,7 +34,6 @@ function SupplierPage() {
             }
         }
     };
-
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -96,6 +98,15 @@ function SupplierPage() {
         fetchSuppliers();
     }, []);
 
+    // Filter suppliers based on the search query
+    const filteredSuppliers = suppliers.filter(supplier =>
+        supplier.first_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        supplier.last_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        supplier.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        supplier.phone_number.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        supplier.address.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
     return (
         <div className='supplier-screen client-screen'>
             <div className='forme'>
@@ -147,8 +158,9 @@ function SupplierPage() {
                         <th>Action</th>
                     </tr>
                     </thead>
-                    <tbody>
-                    {Array.isArray(suppliers) && suppliers.map(supplier => (
+                    <tbody
+                    >
+                    {Array.isArray(filteredSuppliers) && filteredSuppliers.map(supplier => (
                         <tr key={supplier.id}>
                             <td>{supplier.first_name}</td>
                             <td>{supplier.last_name}</td>

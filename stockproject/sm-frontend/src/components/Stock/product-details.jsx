@@ -139,7 +139,7 @@ function ProductDetails() {
                     <div className='product-details__item'>
                         <ul>
                             <li className={'item green-items'}>
-                                <span className={'item-name'}
+                                <span className={'item-name-stock'}
                                       onClick={() => toggleVisibility('allItems')}>All items</span>
                                 {visibleCategory === 'allItems' ? (
                                     <ul className={'article-names'}>
@@ -148,11 +148,11 @@ function ProductDetails() {
                                         ))}
                                     </ul>
                                 ) : (
-                                    <span className={'item-value'}>{allItemsCount}</span>
+                                    <span className={'item-value-stock'}>{allItemsCount}</span>
                                 )}
                             </li>
                             <li className={'item green-items'}>
-                                <span className={'item-name'} onClick={() => toggleVisibility('topSelling')}>Top-selling items</span>
+                                <span className={'item-name-stock'} onClick={() => toggleVisibility('topSelling')}>Top-selling items</span>
                                 {visibleCategory === 'topSelling' ? (
                                     <ul className={'article-names'}>
                                         {topSellingItems.map(articleId => (
@@ -160,11 +160,11 @@ function ProductDetails() {
                                         ))}
                                     </ul>
                                 ) : (
-                                    <span className={'item-value'}>{topSellingItems.length}</span>
+                                    <span className={'item-value-stock'}>{topSellingItems.length}</span>
                                 )}
                             </li>
                             <li className={'item green-items'}>
-                                <span className={'item-name'} onClick={() => toggleVisibility('fastMoving')}>Fast-moving items</span>
+                                <span className={'item-name-stock'} onClick={() => toggleVisibility('fastMoving')}>Fast-moving items</span>
                                 {visibleCategory === 'fastMoving' ? (
                                     <ul className={'article-names'}>
                                         {fastMovingItems.map(articleId => (
@@ -172,11 +172,11 @@ function ProductDetails() {
                                         ))}
                                     </ul>
                                 ) : (
-                                    <span className={'item-value'}>{fastMovingItems.length}</span>
+                                    <span className={'item-value-stock'}>{fastMovingItems.length}</span>
                                 )}
                             </li>
                             <li className={'item red-items'}>
-                                <span className={'item-name'} onClick={() => toggleVisibility('upcomingExpiration')}>Items with upcoming expiration dates</span>
+                                <span className={'item-name-stock'} onClick={() => toggleVisibility('upcomingExpiration')}>Items with upcoming expiration dates</span>
                                 {visibleCategory === 'upcomingExpiration' ? (
                                     <ul className={'article-names'}>
                                         {itemsWithUpcomingExpiration.map(item => (
@@ -184,12 +184,12 @@ function ProductDetails() {
                                         ))}
                                     </ul>
                                 ) : (
-                                    <span className={'item-value'}>{itemsWithUpcomingExpiration.length}</span>
+                                    <span className={'item-value-stock'}>{itemsWithUpcomingExpiration.length}</span>
                                 )}
                             </li>
 
                             <li className={'item red-items'}>
-                                <span className={'item-name'} onClick={() => toggleVisibility('slowMoving')}>Slow-moving items</span>
+                                <span className={'item-name-stock'} onClick={() => toggleVisibility('slowMoving')}>Slow-moving items</span>
                                 {visibleCategory === 'slowMoving' ? (
                                     <ul className={'article-names'}>
                                         {slowMovingItems.map(articleId => (
@@ -197,7 +197,7 @@ function ProductDetails() {
                                         ))}
                                     </ul>
                                 ) : (
-                                    <span className={'item-value'}>{slowMovingItems.length}</span>
+                                    <span className={'item-value-stock'}>{slowMovingItems.length}</span>
                                 )}
                             </li>
 

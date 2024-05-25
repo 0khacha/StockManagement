@@ -11,13 +11,17 @@ import Sales from './components/Sales/Sales';
 import Stock from './pages/Stock/Stock';
 import Settings from './pages/Settings/Settings';
 import Login from './pages/Login/Login';
-import {AuthProvider, useAuth} from "./AuthProvider.jsx"; // Ensure the correct import path
+import { AuthProvider, useAuth } from "./AuthProvider.jsx";
+import {SearchProvider} from "./components/Header/SearchContext.jsx"; // Ensure the correct import path
+
 
 function App() {
     return (
         <AuthProvider>
             <Router>
-                <AppRoutes />
+                <SearchProvider>
+                    <AppRoutes />
+                </SearchProvider>
             </Router>
         </AuthProvider>
     );
@@ -42,7 +46,6 @@ const AppRoutes = () => {
                         <Route path="/stock" element={<Stock />} />
                         <Route path="/settings" element={<Settings />} />
                         <Route path="/login" element={<Navigate to="/" />} />
-
                     </>
                 ) : (
                     <>

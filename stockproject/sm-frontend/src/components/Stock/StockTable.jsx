@@ -1,8 +1,12 @@
+// src/components/StockTable/StockTable.jsx
 import React, { useState, useEffect } from 'react';
-import { ChevronDown } from "react-feather";
-import "./StockTable.css";
-import axios from "axios";
+import { ChevronDown } from 'react-feather';
+import axios from 'axios';
+import { useSearch } from '../Header/SearchContext';
+import './StockTable.css';
+
 function StockTable() {
+    const { searchQuery } = useSearch();
     const [stockData, setStockData] = useState([]);
 
     useEffect(() => {
@@ -20,9 +24,15 @@ function StockTable() {
             setStockData(Array.isArray(response.data.stock) ? response.data.stock : []);
         } catch (error) {
             console.error('Error fetching stock:', error);
-
         }
     };
+
+    // Filter stock data based on the search query
+    const filteredStockData = stockData.filter(item =>
+        item.article.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        item.supplier.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        item.category.toLowerCase().includes(searchQuery.toLowerCase())
+    );
 
     return (
         <div className="stock-screen">
@@ -44,7 +54,7 @@ function StockTable() {
                         <th>Quantity</th>
                         <th>
                             <div className="header-title">
-                                <p>validity period</p> <ChevronDown className="arrow-down" />
+                                <p>Validity Period</p> <ChevronDown className="arrow-down" />
                             </div>
                         </th>
                         <th>Picture</th>
@@ -52,17 +62,14 @@ function StockTable() {
                     </tr>
                     </thead>
                     <tbody>
-                    {stockData.map(item => (
+                    {filteredStockData.map(item => (
                         <tr key={item.id}>
                             <td>{item.article}</td>
                             <td>{item.supplier}</td>
                             <td>{item.category}</td>
                             <td>{item.quantity}</td>
                             <td>{item.validity_period}</td>
-                            <td><img src={item.image_url} alt={item.article}
-                                     style={{width: '50px', height: '50px'}}/></td>
-                            {console.log(item.image_url)}
-
+                            <td><img src={item.image_url} alt={item.article} style={{ width: '50px', height: '50px' }} /></td>
                             <td className="description">{item.description}</td>
                         </tr>
                     ))}

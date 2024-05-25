@@ -10,6 +10,8 @@
 }
 .table-stock{
     width: 100%;
+    max-height: 400px; /* Adjust the height as needed */
+    overflow-y: auto;
 }
 .image-perfume{
     width: 50px;
@@ -21,5 +23,8 @@
 }
 table{
     width: 100%;
+    max-height: 500px; /* Adjust the height as needed */
+    overflow-y: auto;
 }
+
 

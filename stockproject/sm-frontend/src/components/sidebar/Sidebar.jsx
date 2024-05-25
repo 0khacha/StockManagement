@@ -109,7 +109,7 @@ function Sidebar() {
                             </Link>
                         </div>
                     </div>
-                    <Link to="/login" className="nav__link" onClick={handleLogout}>
+                    <Link to="/logout" className="nav__link" onClick={handleLogout}>
                         <LogOut className="nav__icon" />
                         <span className="nav__name">Log Out</span>
                     </Link>
