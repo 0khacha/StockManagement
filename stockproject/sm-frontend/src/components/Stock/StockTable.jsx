@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ChevronDown } from "react-feather";
 import "./StockTable.css";
-import pafumeImg from './../images/perfume.jpeg';
-
+import axios from "axios";
 function StockTable() {
     const [stockData, setStockData] = useState([]);
 
@@ -12,14 +11,16 @@ function StockTable() {
 
     const fetchStockData = async () => {
         try {
-            const response = await fetch('http://127.0.0.1:8000/api/stock');
-            if (!response.ok) {
-                throw new Error('Failed to fetch stock data');
-            }
-            const data = await response.json();
-            setStockData(data);
+            const token = localStorage.getItem('token');
+            const response = await axios.get('http://127.0.0.1:8000/api/stock', {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            setStockData(Array.isArray(response.data.stock) ? response.data.stock : []);
         } catch (error) {
-            console.error(error);
+            console.error('Error fetching stock:', error);
+
         }
     };
 
@@ -58,7 +59,10 @@ function StockTable() {
                             <td>{item.category}</td>
                             <td>{item.quantity}</td>
                             <td>{item.validity_period}</td>
-                            <td><img className="image-perfume" src={pafumeImg} alt="can't" /></td>
+                            <td><img src={item.image_url} alt={item.article}
+                                     style={{width: '50px', height: '50px'}}/></td>
+                            {console.log(item.image_url)}
+
                             <td className="description">{item.description}</td>
                         </tr>
                     ))}

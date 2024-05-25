@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { ChevronDown, ChevronUp, User, LogOut } from "react-feather";
 import { Link } from 'react-router-dom';
 import Notification from "./Notification";
+import userimg from '../images/userimg.jpg'
 
 import { useAuth } from './../../AuthProvider.jsx';
 
@@ -44,7 +45,7 @@ const NavbarConnexion = () => {
                     <div className="connexion-content">
                         <div className="user-info">
                             {/* Display user image */}
-                            <img src={user ? user.image : ''} id={'user-image'} alt='user' />
+                            <img src={user ? user.image : userimg} id={'user-image'} alt='user' />
                             <h5 className={'user'}>{user ? `${user.first_name} ${user.last_name}` : ''}</h5>
                         </div>
                         <div className="dropdown-container" ref={dropdownRef} onClick={toggleDropdown}>

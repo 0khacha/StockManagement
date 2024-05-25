@@ -21,10 +21,18 @@ function Client() {
 
     const fetchClients = async () => {
         try {
-            const response = await axios.get('http://127.0.0.1:8000/api/clients');
+            const token = localStorage.getItem('token');
+            const response = await axios.get('http://127.0.0.1:8000/api/clients', {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
             setClients(response.data);
         } catch (error) {
             console.error('Error fetching clients:', error);
+            if (error.response && error.response.status === 401) {
+                alert('You are not authorized. Please log in.');
+            }
         }
     };
 
@@ -39,15 +47,29 @@ function Client() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
+            const token = localStorage.getItem('token');
+            const requestData = { ...formData };
+
             if (formData.id) {
-                await axios.put(`http://127.0.0.1:8000/api/clients/${formData.id}`, formData);
+                await axios.put(`http://127.0.0.1:8000/api/clients/${formData.id}`, requestData, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
             } else {
-                await axios.post('http://127.0.0.1:8000/api/clients', formData);
+                await axios.post('http://127.0.0.1:8000/api/clients', requestData, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
             }
             fetchClients();
             resetForm();
         } catch (error) {
             console.error('Error submitting form data:', error);
+            if (error.response && error.response.status === 401) {
+                alert('You are not authorized. Please log in.');
+            }
         }
     };
 
@@ -57,10 +79,18 @@ function Client() {
 
     const handleDelete = async (clientId) => {
         try {
-            await axios.delete(`http://127.0.0.1:8000/api/clients/${clientId}`);
+            const token = localStorage.getItem('token');
+            await axios.delete(`http://127.0.0.1:8000/api/clients/${clientId}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
             fetchClients();
         } catch (error) {
             console.error('Error deleting client:', error);
+            if (error.response && error.response.status === 401) {
+                alert('You are not authorized. Please log in.');
+            }
         }
     };
 
@@ -82,23 +112,23 @@ function Client() {
                     <input type="hidden" name="id" value={formData.id} />
                     <div className='title-input'>
                         <h5>First Name</h5>
-                        <input type="text" name="first_name" value={formData.first_name} onChange={handleChange} placeholder='Please enter the first name ...'/>
+                        <input type="text" name="first_name" value={formData.first_name} onChange={handleChange} placeholder='Please enter the first name ...' />
                     </div>
                     <div className='title-input'>
                         <h5>Last Name</h5>
-                        <input type="text" name="last_name" value={formData.last_name} onChange={handleChange} placeholder='Please enter the last name ...'/>
+                        <input type="text" name="last_name" value={formData.last_name} onChange={handleChange} placeholder='Please enter the last name ...' />
                     </div>
                     <div className='title-input'>
                         <h5>Email</h5>
-                        <input type="email" name="email" value={formData.email} onChange={handleChange} placeholder='Please enter the email ...'/>
+                        <input type="email" name="email" value={formData.email} onChange={handleChange} placeholder='Please enter the email ...' />
                     </div>
                     <div className='title-input'>
                         <h5>Phone Number</h5>
-                        <input type="text" name="phone_number" value={formData.phone_number} onChange={handleChange} placeholder='Please enter the phone number ...'/>
+                        <input type="text" name="phone_number" value={formData.phone_number} onChange={handleChange} placeholder='Please enter the phone number ...' />
                     </div>
                     <div className='title-input'>
                         <h5>Address</h5>
-                        <input type="text" name="address" value={formData.address} onChange={handleChange} placeholder='Please enter the address ...'/>
+                        <input type="text" name="address" value={formData.address} onChange={handleChange} placeholder='Please enter the address ...' />
                     </div>
                     <button type="submit" className='validate'>{formData.id ? 'Update' : 'Add'}</button>
                 </form>
@@ -126,10 +156,10 @@ function Client() {
                             <td>
                                 <div className="action">
                                     <button className="edit" onClick={() => handleEdit(client)}>
-                                        <Edit className="nav__toggle icon-edit"/>
+                                        <Edit className="nav__toggle icon-edit" />
                                     </button>
                                     <button className="delete" onClick={() => handleDelete(client.id)}>
-                                        <Trash2 className="nav__toggle icon-delete"/>
+                                        <Trash2 className="nav__toggle icon-delete" />
                                     </button>
                                 </div>
                             </td>

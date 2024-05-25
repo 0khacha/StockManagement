@@ -18,12 +18,9 @@ class RegisteredUserController extends Controller
         $user->last_name = $request->last_name;
         $user->email = $request->email;
         $user->password = bcrypt($request->password);
-        $user->phone = $request->phone;
+        $user->phone_number  = $request->phone_number;
 
-        // Assign default image path to user's profile picture
-        $user->image = 'https://as2.ftcdn.net/v2/jpg/00/64/67/63/1000_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.jpg'; // Replace with your default image path
 
-        // Save the user
         $result = $user->save();
 
         if ($result) {
