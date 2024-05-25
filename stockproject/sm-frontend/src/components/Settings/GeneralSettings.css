@@ -8,6 +8,7 @@
     display: flex;
     justify-content: space-between;
     grid-gap: 20px;
+    padding: 20px;
 
 }
 .new-password-dev{
@@ -26,7 +27,14 @@
 
 .name_full{
     display: flex;
-    gap: 5px;
+    gap: 10px;
+}
+.first_name{
+    margin-right: 10px;
+}
+.last_name
+{
+    margin-left: 30px;
 }
 .setting-page section {
     border: 1px solid #ccc;

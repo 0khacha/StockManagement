@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { Edit, Trash2 } from "react-feather";
+import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
+import { Edit, Trash2 } from "react-feather";
+import { SearchContext } from './../Header/SearchContext.jsx'; // Assuming you have a SearchContext
 
 function Orders() {
     const [formData, setFormData] = useState({
@@ -16,6 +17,7 @@ function Orders() {
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(null);
     const [orders, setOrders] = useState([]);
+    const { searchQuery } = useContext(SearchContext); // Assuming you have a searchQuery in the SearchContext
 
     useEffect(() => {
         fetchOrders();
@@ -124,6 +126,32 @@ function Orders() {
         });
     };
 
+    // Filter orders based on the search query
+    // Inside your Orders component
+
+    const filterOrders = (orders, searchQuery) => {
+        return orders.filter(order => {
+            // Convert quantity to string if it's a number
+            const quantityStr = typeof order.quantity === 'number' ? order.quantity.toString() : order.quantity;
+            return (
+                order.article.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                order.supplier.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                order.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                quantityStr.toLowerCase().includes(searchQuery.toLowerCase()) || // Use converted quantity string
+                order.unit_price.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                order.description.toLowerCase().includes(searchQuery.toLowerCase())
+            );
+        });
+    };
+
+
+// Inside your component, use filterOrders function
+
+    const filteredOrders = filterOrders(orders, searchQuery);
+
+// Replace filteredOrders.map(...) with the mapping directly in JSX
+
+
     return (
         <div className='orders-screen client-screen'>
             <div className='forme'>
@@ -179,42 +207,42 @@ function Orders() {
                         <th>Category</th>
                         <th>Quantity</th>
                         <th>Unit Price</th>
-                        <th>Description</th>
-                        <th>Action</th>
+                    <th>Description</th>
+                    <th>Action</th>
                     </tr>
-                    </thead>
-                    <tbody>
-                    {orders.length > 0 ? (
-                        orders.map(order => (
-                            <tr key={order.id}>
-                                <td>{order.article}</td>
-                                <td>{order.supplier}</td>
-                                <td>{order.category}</td>
-                                <td>{order.quantity}</td>
-                                <td>{order.unit_price}</td>
-                                <td>{order.description}</td>
-                                <td>
-                                    <div className="action">
-                                        <button className="edit" onClick={() => handleEdit(order)}>
-                                            <Edit className="nav__toggle icon-edit" />
-                                        </button>
-                                        <button className="delete" onClick={() => handleDelete(order.id)}>
-                                            <Trash2 className="nav__toggle icon-delete" />
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                        ))
-                    ) : (
-                        <tr>
-                            <td colSpan="7">No orders available</td>
+                </thead>
+                <tbody>
+                {filteredOrders.length > 0 ? (
+                    filteredOrders.map(order => (
+                        <tr key={order.id}>
+                            <td>{order.article}</td>
+                            <td>{order.supplier}</td>
+                            <td>{order.category}</td>
+                            <td>{order.quantity}</td>
+                            <td>{order.unit_price}</td>
+                            <td>{order.description}</td>
+                            <td>
+                                <div className="action">
+                                    <button className="edit" onClick={() => handleEdit(order)}>
+                                        <Edit className="nav__toggle icon-edit" />
+                                    </button>
+                                    <button className="delete" onClick={() => handleDelete(order.id)}>
+                                        <Trash2 className="nav__toggle icon-delete" />
+                                    </button>
+                                </div>
+                            </td>
                         </tr>
-                    )}
-                    </tbody>
-                </table>
-            </div>
+                    ))
+                ) : (
+                    <tr>
+                        <td colSpan="7">No orders available</td>
+                    </tr>
+                )}
+                </tbody>
+            </table>
         </div>
-    );
+</div>
+);
 }
 
 export default Orders;

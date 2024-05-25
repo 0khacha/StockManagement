@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Edit, Trash2 } from 'react-feather';
 import axios from 'axios';
 import './Article.css';
+import { useSearch } from '../Header/SearchContext'; // Ensure the correct import path
 
 function Articles() {
     const [formData, setFormData] = useState({
@@ -21,6 +22,7 @@ function Articles() {
     const [orders, setOrders] = useState([]);
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(null);
+    const { searchQuery } = useSearch(); // Use the search context
 
     useEffect(() => {
         fetchArticles();
@@ -50,7 +52,7 @@ function Articles() {
                     Authorization: `Bearer ${token}`
                 }
             });
-            setOrders(Array.isArray(response.data) ? response.data : []);
+            setOrders(Array.isArray(response.data.orders) ? response.data.orders : []);
         } catch (error) {
             console.error('Error fetching orders:', error);
             setError('Error fetching orders data');
@@ -203,7 +205,7 @@ function Articles() {
     const handleDelete = async (articleId) => {
         try {
             const token = localStorage.getItem('token');
-            await axios.delete(`http://127.0.0.1:8000/api/articles/${articleId}`, {
+            await axios.delete(`http://127.0.0.1:8000/api/article/${articleId}`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -230,6 +232,12 @@ function Articles() {
             localisation: ''
         });
     };
+
+    const filteredArticles = articles.filter(article =>
+        article.article.toLowerCase().includes(searchQuery.toLowerCase())
+        || article.supplier.toLowerCase().includes(searchQuery.toLowerCase())
+        || article.category.toLowerCase().includes(searchQuery.toLowerCase())
+    );
 
     return (
         <div className='article-screen client-screen'>
@@ -303,7 +311,7 @@ function Articles() {
                     </tr>
                     </thead>
                     <tbody>
-                    {articles.map((article) => (
+                    {filteredArticles.map((article) => (
                         <tr key={article.id}>
                             <td>{article.article}</td>
                             <td>{article.supplier}</td>

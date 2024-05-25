@@ -63,7 +63,7 @@ const NavbarConnexion = () => {
                                         </Link>
                                     </li>
                                     <li>
-                                        <Link to="/login" onClick={handleLogout} className="dropdown-item">
+                                        <Link to="/logout" onClick={handleLogout} className="dropdown-item">
                                             <LogOut className='logOut-icon feather-icon' />
                                             <span className="item-name">Log out</span>
                                         </Link>

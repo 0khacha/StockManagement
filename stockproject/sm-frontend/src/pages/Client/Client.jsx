@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Edit, Trash2 } from "react-feather";
+import { Edit, Trash2 } from 'react-feather';
 import axios from 'axios';
+import { useSearch } from '../../components/Header/SearchContext.jsx'; // Ensure the import path is correct
 import './client.css';
 
 function Client() {
+    const { searchQuery } = useSearch();
     const [formData, setFormData] = useState({
         id: '',
         first_name: '',
@@ -105,6 +107,15 @@ function Client() {
         });
     };
 
+    // Filter clients based on the search query
+    const filteredClients = clients.filter(client =>
+        client.first_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        client.last_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        client.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        client.phone_number.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        client.address.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
     return (
         <div className='client-screen'>
             <div className='forme'>
@@ -146,7 +157,7 @@ function Client() {
                     </tr>
                     </thead>
                     <tbody>
-                    {clients.map(client => (
+                    {filteredClients.map(client => (
                         <tr key={client.id}>
                             <td>{client.first_name}</td>
                             <td>{client.last_name}</td>

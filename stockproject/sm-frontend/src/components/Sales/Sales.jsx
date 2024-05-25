@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Edit, Trash2 } from "react-feather";
 import axios from 'axios';
+import {useSearch} from "../Header/SearchContext.jsx";
 
 function SalesPage() {
     const [formData, setFormData] = useState({
@@ -18,7 +19,7 @@ function SalesPage() {
     const [clients, setClients] = useState([]);
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(null);
-
+    const { searchQuery } = useSearch();
     useEffect(() => {
         fetchSales();
         fetchStock();
@@ -39,7 +40,11 @@ function SalesPage() {
             setError('Erreur lors de la récupération des données des ventes');
         }
     };
-
+    const filteredSales = sales.filter(sale =>
+        sale.article.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        sale.client.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        sale.description.toLowerCase().includes(searchQuery.toLowerCase())
+    );
     const fetchStock = async () => {
         try {
             const token = localStorage.getItem('token');
@@ -239,8 +244,8 @@ function SalesPage() {
                     </tr>
                     </thead>
                     <tbody>
-                    {Array.isArray(sales) && sales.length > 0 ? (
-                        sales.map(sale => (
+                    {filteredSales.length > 0 ? (
+                        filteredSales.map(sale => (
                             <tr key={sale.id}>
                                 <td>{sale.article || 'N/A'}</td>
                                 <td>{sale.description || 'N/A'}</td>

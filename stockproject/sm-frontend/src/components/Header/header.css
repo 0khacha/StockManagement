@@ -103,14 +103,16 @@
 .dropdown-content {
     margin-top: 15px;
     margin-right: 20px;
-    border: none;
     display: none;
-    position: absolute;
     right: 20px;
-    background:#D9D9D9;
     z-index: 1;
     text-decoration: none;
-    transition: .5s;
+    transition: max-height 0.9s ease-out, opacity 0.3s ease-out;
+    background-color: white;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    position:absolute ;
+
 
 }
 .dropdown-content::after {
@@ -121,6 +123,7 @@
     border-width: 8px;
     border-style: solid;
     border-color: #DDD transparent transparent transparent;
+    transition: max-height 0.9s ease-out, opacity 0.3s ease-out;
 }.dropdown-content ul {
      list-style-type: none;
      padding: 0;
@@ -134,18 +137,26 @@
  }
 
 .dropdown-content ul li {
-    padding: 5px 0;
+    padding: 3px 0;
     width: 100%; /* Make the list items take up full width */
     text-align: center; /* Center text */
-
+    color: black;
+    border-bottom: 1px solid #eee;
 
 
 }
-
+.item-name
+{
+    color: #333333;
+    font-size:medium;
+    font-family: 'Poppins', sans-serif;
+}
 .dropdown-content ul li:hover {
 
     cursor: pointer; /* Change cursor style when hovering */
-    background: rgba(128, 128, 128, 0.76);
+
+    color: black;
+    background-color: #cccccc;
 }
 
 .dropdown-container:hover .dropdown-content {
@@ -154,19 +165,28 @@
 .dropdown-content ul li .feather-icon
 {
     margin-right: 10px;
-}
-.dropdown-message {
-    position: absolute;
-    top: 40px; /* Adjust as needed */
-    right: -100px;
-    background-color: white;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    padding: 5px;
-    z-index: 1000; /* Ensure it's above other elements */
-    width: 200px;
-    font-size:small;
+    color: #333333;
+}.dropdown-message {
+     position: absolute;
+     top: 42px; /* Adjust as needed */
+     right: -100px;
+     background-color: white;
+     border: 1px solid #ccc;
+     border-radius: 4px;
+     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+     padding: 5px;
+     z-index: 1000; /* Ensure it's above other elements */
+     width: 200px;
+     font-size: small;
+     max-height: 0;
+     overflow: hidden;
+     opacity: 0;
+     transition: max-height 0.9s ease-out, opacity 0.3s ease-out;
+ }
+
+.dropdown-message.open {
+    max-height: 500px; /* Adjust as needed */
+    opacity: 1;
 }
 
 .dropdown-message div {
@@ -198,12 +218,17 @@
     font-size: 12px;
     font-weight: bold;
 }
-
-
+.notification-icon
+{   margin-right: 5px;
+    margin-top: 5px;
+    height: 18px;
+    width: 18px;
+}
 .notification-item {
     padding: 5px;
     border-bottom: 1px solid #eee;
 }
+
 .notification-item:hover {
     background-color: #cccccc;
 }
@@ -213,7 +238,7 @@
 }
 
 .notification-item div {
-  cursor: pointer;
+    cursor: pointer;
     font-size: 13px;
     color: #333;
 }

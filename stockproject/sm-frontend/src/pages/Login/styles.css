@@ -27,7 +27,7 @@
   flex-direction: column; /* Adjust to column layout */
   justify-content: center;
   align-items: center;
-  background-color: rgba(240, 240, 240, 0.5); /* Set the background color with transparency */
+  background-color: rgba(240, 240, 240, 0.2); /* Set the background color with transparency */
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
