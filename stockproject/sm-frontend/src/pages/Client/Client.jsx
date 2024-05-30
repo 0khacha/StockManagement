@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Edit, Trash2 } from 'react-feather';
 import axios from 'axios';
-import { useSearch } from '../../components/Header/SearchContext.jsx'; // Ensure the import path is correct
+import { useSearch } from '../../components/Header/SearchContext.jsx'; // Assurez-vous que le chemin d'importation est correct
 import './client.css';
 
 function Client() {
@@ -31,9 +31,9 @@ function Client() {
             });
             setClients(response.data);
         } catch (error) {
-            console.error('Error fetching clients:', error);
+            console.error('Erreur lors de la récupération des clients :', error);
             if (error.response && error.response.status === 401) {
-                alert('You are not authorized. Please log in.');
+                alert('Vous n\'êtes pas autorisé. Veuillez vous connecter.');
             }
         }
     };
@@ -68,9 +68,9 @@ function Client() {
             fetchClients();
             resetForm();
         } catch (error) {
-            console.error('Error submitting form data:', error);
+            console.error('Erreur lors de la soumission des données du formulaire :', error);
             if (error.response && error.response.status === 401) {
-                alert('You are not authorized. Please log in.');
+                alert('Vous n\'êtes pas autorisé. Veuillez vous connecter.');
             }
         }
     };
@@ -89,9 +89,9 @@ function Client() {
             });
             fetchClients();
         } catch (error) {
-            console.error('Error deleting client:', error);
+            console.error('Erreur lors de la suppression du client :', error);
             if (error.response && error.response.status === 401) {
-                alert('You are not authorized. Please log in.');
+                alert('Vous n\'êtes pas autorisé. Veuillez vous connecter.');
             }
         }
     };
@@ -107,7 +107,7 @@ function Client() {
         });
     };
 
-    // Filter clients based on the search query
+    // Filtrer les clients en fonction de la requête de recherche
     const filteredClients = clients.filter(client =>
         client.first_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         client.last_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -122,37 +122,37 @@ function Client() {
                 <form onSubmit={handleSubmit} className='formulaire'>
                     <input type="hidden" name="id" value={formData.id} />
                     <div className='title-input'>
-                        <h5>First Name</h5>
-                        <input type="text" name="first_name" value={formData.first_name} onChange={handleChange} placeholder='Please enter the first name ...' />
+                        <h5>Prénom</h5>
+                        <input type="text" name="first_name" value={formData.first_name} onChange={handleChange} placeholder='Veuillez entrer le prénom ...' />
                     </div>
                     <div className='title-input'>
-                        <h5>Last Name</h5>
-                        <input type="text" name="last_name" value={formData.last_name} onChange={handleChange} placeholder='Please enter the last name ...' />
+                        <h5>Nom</h5>
+                        <input type="text" name="last_name" value={formData.last_name} onChange={handleChange} placeholder='Veuillez entrer le nom ...' />
                     </div>
                     <div className='title-input'>
                         <h5>Email</h5>
-                        <input type="email" name="email" value={formData.email} onChange={handleChange} placeholder='Please enter the email ...' />
+                        <input type="email" name="email" value={formData.email} onChange={handleChange} placeholder="Veuillez entrer l'email ..." />
                     </div>
                     <div className='title-input'>
-                        <h5>Phone Number</h5>
-                        <input type="text" name="phone_number" value={formData.phone_number} onChange={handleChange} placeholder='Please enter the phone number ...' />
+                        <h5>Numéro de téléphone</h5>
+                        <input type="text" name="phone_number" value={formData.phone_number} onChange={handleChange} placeholder='Veuillez entrer le numéro de téléphone ...' />
                     </div>
                     <div className='title-input'>
-                        <h5>Address</h5>
-                        <input type="text" name="address" value={formData.address} onChange={handleChange} placeholder='Please enter the address ...' />
+                        <h5>Adresse</h5>
+                        <input type="text" name="address" value={formData.address} onChange={handleChange} placeholder="Veuillez entrer l'adresse ..."/>
                     </div>
-                    <button type="submit" className='validate'>{formData.id ? 'Update' : 'Add'}</button>
+                    <button type="submit" className='validate'>{formData.id ? 'Mettre à jour' : 'Ajouter'}</button>
                 </form>
             </div>
             <div className='ttable'>
                 <table>
                     <thead>
                     <tr>
-                        <th>First Name</th>
-                        <th>Last Name</th>
+                        <th>Prénom</th>
+                        <th>Nom</th>
                         <th>Email</th>
-                        <th>Phone Number</th>
-                        <th>Address</th>
+                        <th>Numéro de téléphone</th>
+                        <th>Adresse</th>
                         <th>Action</th>
                     </tr>
                     </thead>

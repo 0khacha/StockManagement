@@ -12,10 +12,10 @@ function Settings() {
 
     return (
         <main className='setting-page'>
-            <h1>Account Settings</h1>
+            <h1>Paramètres du compte</h1>
             <div className='settings-bar'>
-                <button className={activeTab === 'General' ? 'active' : ''} onClick={() => handleTabChange('General')}>General settings</button>
-                <button className={activeTab === 'History' ? 'active' : ''} onClick={() => handleTabChange('History')}>User History</button>
+                <button className={activeTab === 'General' ? 'active' : ''} onClick={() => handleTabChange('General')}>Paramètres généraux</button>
+                <button className={activeTab === 'History' ? 'active' : ''} onClick={() => handleTabChange('History')}>Historique de d'utilisateur</button>
             </div>
             {activeTab === 'General' ? (
                 <GeneralSettings />

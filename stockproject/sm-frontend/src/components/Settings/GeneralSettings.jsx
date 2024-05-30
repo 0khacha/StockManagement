@@ -80,20 +80,20 @@ const GeneralSettings = () => {
         try {
             const token = window.localStorage.getItem('token');
             if (!token) {
-                throw new Error('No token found');
+                throw new Error('Aucun jeton trouvé');
             }
             const response = await axios.put('http://127.0.0.1:8000/api/updateUser', formData, {
                 headers: {
-                    Authorization:` Bearer ${token}`
+                    Authorization: `Bearer ${token}`
                 }
             });
             if (response.status === 200) {
-                console.log('User data updated successfully');
+                console.log('Les données utilisateur ont été mises à jour avec succès');
             } else {
-                throw new Error('Failed to update user data');
+                throw new Error('Échec de la mise à jour des données utilisateur');
             }
         } catch (error) {
-            console.error('Failed to update user data', error);
+            console.error('Échec de la mise à jour des données utilisateur', error);
         }
     };
 
@@ -102,11 +102,11 @@ const GeneralSettings = () => {
         try {
             const token = window.localStorage.getItem('token');
             if (!token) {
-                throw new Error('No token found');
+                throw new Error('Aucun jeton trouvé');
             }
 
             if (passwordData.new_password !== passwordData.new_password_confirmation) {
-                throw new Error('New password and confirmation do not match');
+                throw new Error('Le nouveau mot de passe et la confirmation ne correspondent pas');
             }
 
             const response = await axios.put('http://127.0.0.1:8000/api/updatePassword', {
@@ -120,7 +120,7 @@ const GeneralSettings = () => {
             });
 
             if (response.status === 200) {
-                console.log('Password updated successfully');
+                console.log('Le mot de passe a été mis à jour avec succès');
                 setPasswordData({
                     password: '',
                     new_password: '',
@@ -128,16 +128,16 @@ const GeneralSettings = () => {
                 });
                 setInEditPassword(false);
             } else {
-                throw new Error('Failed to update password');
+                throw new Error('Échec de la mise à jour du mot de passe');
             }
         } catch (error) {
-            console.error('Failed to update password', error);
+            console.error('Échec de la mise à jour du mot de passe', error);
             if (error.response && error.response.data && error.response.data.message) {
                 alert(error.response.data.message);
-            } else if (error.message === 'New password and confirmation do not match') {
-                alert('New password and confirmation do not match. Please try again.');
+            } else if (error.message === 'Le nouveau mot de passe et la confirmation ne correspondent pas') {
+                alert('Le nouveau mot de passe et la confirmation ne correspondent pas. Veuillez réessayer.');
             } else {
-                alert('Failed to update password. Please try again.');
+                alert('Échec de la mise à jour du mot de passe. Veuillez réessayer.');
             }
         }
     };
@@ -159,16 +159,16 @@ const GeneralSettings = () => {
                     password: sha512(confirmationPassword),
                 },
             });
-            console.log('Account deleted successfully:', response.data);
+            console.log('Compte supprimé avec succès:', response.data);
             window.location.href('/login');
             setNavigateToLogin(true);
 
         } catch (error) {
-            console.error('Error deleting account:', error);
+            console.error('Erreur lors de la suppression du compte:', error);
             if (error.response && error.response.data && error.response.data.error) {
                 setDeleteError(error.response.data.error);
             } else {
-                setDeleteError('An error occurred while deleting your account. Please try again later.');
+                setDeleteError('Une erreur s\'est produite lors de la suppression de votre compte. Veuillez réessayer plus tard.');
             }
         } finally {
             setIsDeleting(false);
@@ -194,10 +194,10 @@ const GeneralSettings = () => {
     return (
         <div className='setting-page-profile'>
             <section className='profile-details-section'>
-                <h2>Profile Details</h2>
+                <h2>Détails du profil</h2>
                 <div className='photo-section'>
                     <div className='image'>
-                        <img onClick={handleClick} src={formData.image || userimg} alt="user" />
+                        <img onClick={handleClick} src={formData.image || userimg} alt="utilisateur" />
                     </div>
                     <input ref={fileInputRef} type="file" id="image" name="image" accept="image/*" onChange={handleChange} style={{ display: 'none' }} />
                 </div>
@@ -205,7 +205,7 @@ const GeneralSettings = () => {
                     <form onSubmit={handleSubmit}>
                         <div className="name_full">
                             <div className={'first_name'}>
-                                <label htmlFor="first_name">First Name</label>
+                                <label htmlFor="first_name">Prénom</label>
                                 <input
                                     type="text"
                                     id='first_name'
@@ -215,7 +215,7 @@ const GeneralSettings = () => {
                                 />
                             </div>
                             <div className={'last_name'}>
-                                <label htmlFor="last_name">Last Name</label>
+                                <label htmlFor="last_name">Nom</label>
                                 <input
                                     type="text"
                                     id='last_name'
@@ -233,7 +233,7 @@ const GeneralSettings = () => {
                             value={formData.email}
                             onChange={handleChange}
                         />
-                        <label htmlFor="phone">Phone</label>
+                        <label htmlFor="phone">Téléphone</label>
                         <input
                             type="text"
                             id='phone'
@@ -241,7 +241,7 @@ const GeneralSettings = () => {
                             value={formData.phone_number}
                             onChange={handleChange}
                         />
-                        <button type="submit">Update</button>
+                        <button type="submit">Mettre à jour</button>
                     </form>
                 </div>
             </section>
@@ -249,12 +249,12 @@ const GeneralSettings = () => {
                 <section className='password-section'>
                     {inEditPassword ? (
                         <div className="edit-password">
-                            <h4 className="title-password">Change your password</h4>
+                            <h4 className="title-password">Changer votre mot de passe</h4>
                             <form onSubmit={handlePasswordSubmit}>
                                 <div className="password-inputs">
                                     <input
                                         type="password"
-                                        placeholder="Enter your current password"
+                                        placeholder="Entrez votre mot de passe actuel"
                                         name="password"
                                         value={passwordData.password}
                                         onChange={handlePasswordChange}
@@ -262,47 +262,47 @@ const GeneralSettings = () => {
                                     <div className="new-password-dev">
                                         <input
                                             type="password"
-                                            placeholder="Enter your new password"
+                                            placeholder="Entrez votre nouveau mot de passe"
                                             name="new_password"
                                             value={passwordData.new_password}
                                             onChange={handlePasswordChange}
                                         />
                                         <input
                                             type="password"
-                                            placeholder="Confirm your new password"
+                                            placeholder="Confirmez votre nouveau mot de passe"
                                             name="new_password_confirmation"
                                             value={passwordData.new_password_confirmation}
                                             onChange={handlePasswordChange}
                                         />
                                     </div>
                                 </div>
-                                <button type="submit">Update</button>
-                                <button type="button" onClick={handleEdit}>Cancel</button>
+                                <button type="submit">Mettre à jour</button>
+                                <button type="button" onClick={handleEdit}>Annuler</button>
                             </form>
                         </div>
                     ) : (
                         <div>
-                            <h2>Change Password</h2>
-                            <p>To change your password, please enter your current password and your new password below.</p>
-                            <button onClick={handleEdit}>Change Password</button>
+                            <h2>Changer le mot de passe</h2>
+                            <p>Pour changer votre mot de passe, veuillez entrer votre mot de passe actuel et votre nouveau mot de passe ci-dessous.</p>
+                            <button onClick={handleEdit}>Changer le mot de passe</button>
                         </div>
                     )}
                 </section>
                 <section className='delete-account-section'>
-                    <h2>Delete Account</h2>
-                    <p>If you would like to delete your account, please click the button below.</p>
-                    <button onClick={handleConfirmDeleteModal}>Delete Account</button>
+                    <h2>Supprimer le compte</h2>
+                    <p>Si vous souhaitez supprimer votre compte, veuillez cliquer sur le bouton ci-dessous.</p>
+                    <button onClick={handleConfirmDeleteModal}>Supprimer le compte</button>
                     {deleteButtonClick && (
                         <ConfirmationModal
-                            message="Are you sure you want to delete your account?"
-                            output={isDeleting && 'Deleting account, please wait...'}
+                            message="Êtes-vous sûr de vouloir supprimer votre compte ?"
+                            output={isDeleting && 'Suppression du compte, veuillez patienter...'}
                             result={() => deleteError ? deleteError.toString() : ''}
                             onConfirm={handleConfirmDelete}
                             onCancel={handleCancelDelete}
                             passwordInput={(
                                 <input
                                     type="password"
-                                    placeholder="Enter your password ..."
+                                    placeholder="Entrez votre mot de passe ..."
                                     value={confirmationPassword}
                                     onChange={(e) => setConfirmationPassword(e.target.value)}
                                 />

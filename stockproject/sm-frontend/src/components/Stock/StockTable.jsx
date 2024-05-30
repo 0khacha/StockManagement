@@ -1,4 +1,3 @@
-// src/components/StockTable/StockTable.jsx
 import React, { useState, useEffect } from 'react';
 import { ChevronDown } from 'react-feather';
 import axios from 'axios';
@@ -23,11 +22,11 @@ function StockTable() {
             });
             setStockData(Array.isArray(response.data.stock) ? response.data.stock : []);
         } catch (error) {
-            console.error('Error fetching stock:', error);
+            console.error('Erreur lors de la récupération du stock:', error);
         }
     };
 
-    // Filter stock data based on the search query
+    // Filtrer les données de stock en fonction de la requête de recherche
     const filteredStockData = stockData.filter(item =>
         item.article.toLowerCase().includes(searchQuery.toLowerCase()) ||
         item.supplier.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -43,21 +42,21 @@ function StockTable() {
                         <th>Article</th>
                         <th>
                             <div className="header-title">
-                                <p>Supplier</p> <ChevronDown className="arrow-down" />
+                                <p>Fournisseur</p> <ChevronDown className="arrow-down" />
                             </div>
                         </th>
                         <th>
                             <div className="header-title">
-                                <p>Category</p> <ChevronDown className="arrow-down" />
+                                <p>Catégorie</p> <ChevronDown className="arrow-down" />
                             </div>
                         </th>
-                        <th>Quantity</th>
+                        <th>Quantité</th>
                         <th>
                             <div className="header-title">
-                                <p>Validity Period</p> <ChevronDown className="arrow-down" />
+                                <p>Période de Validité</p> <ChevronDown className="arrow-down" />
                             </div>
                         </th>
-                        <th>Picture</th>
+                        <th>Image</th>
                         <th>Description</th>
                     </tr>
                     </thead>

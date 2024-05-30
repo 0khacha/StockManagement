@@ -18,7 +18,7 @@ const NavbarSearch = () => {
                     <input
                         type="text"
                         className='search-input'
-                        placeholder='Search here ...'
+                        placeholder='Chercher ici ... '
                         value={searchQuery}
                         onChange={handleSearchChange}
                     />

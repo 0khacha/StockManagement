@@ -39,8 +39,8 @@ function Articles() {
             });
             setArticles(Array.isArray(response.data) ? response.data : []);
         } catch (error) {
-            console.error('Error fetching articles:', error);
-            setError('Error fetching articles data');
+            console.error('Erreur lors de la récupération des articles:', error);
+            setError('Erreur lors de la récupération des données des articles');
         }
     };
 
@@ -54,14 +54,14 @@ function Articles() {
             });
             setOrders(Array.isArray(response.data.orders) ? response.data.orders : []);
         } catch (error) {
-            console.error('Error fetching orders:', error);
-            setError('Error fetching orders data');
+            console.error('Erreur lors de la récupération des commandes:', error);
+            setError('Erreur lors de la récupération des données des commandes');
         }
     };
 
     const handleInputChange = (e) => {
         const { name, value, files } = e.target;
-        console.log(`Field ${name} changed to ${value}`);
+        console.log(`Champ ${name} changé en ${value}`);
 
         if (name === 'image' && files.length > 0) {
             setFormData((prevState) => ({
@@ -116,19 +116,19 @@ function Articles() {
             });
 
             if (response.status === 201) {
-                setSuccess('Article added successfully');
+                setSuccess('Article ajouté avec succès');
                 fetchArticles();
                 resetForm();
             } else {
-                setError('Failed to add article');
+                setError('Échec de l\'ajout de l\'article');
             }
         } catch (error) {
-            console.error('Error adding article:', error);
+            console.error('Erreur lors de l\'ajout de l\'article:', error);
             if (error.response && error.response.data) {
                 const validationErrors = error.response.data.messages;
-                setError(validationErrors.article ? validationErrors.article.join(', ') : 'Validation error');
+                setError(validationErrors.article ? validationErrors.article.join(', ') : 'Erreur de validation');
             } else {
-                setError('Error adding article data');
+                setError('Erreur lors de l\'ajout des données de l\'article');
             }
         }
     };
@@ -160,20 +160,20 @@ function Articles() {
             });
 
             if (response.status === 200) {
-                setSuccess('Article updated successfully');
+                setSuccess('Article mis à jour avec succès');
                 fetchArticles();
                 resetForm();
             } else {
-                setError('Failed to update article');
+                setError('Échec de la mise à jour de l\'article');
                 console.log(response.data);
             }
         } catch (error) {
-            console.error('Error updating article:', error);
+            console.error('Erreur lors de la mise à jour de l\'article:', error);
             if (error.response && error.response.data) {
                 const validationErrors = error.response.data.messages;
-                setError(validationErrors.article ? validationErrors.article.join(', ') : 'Validation error');
+                setError(validationErrors.article ? validationErrors.article.join(', ') : 'Erreur de validation');
             } else {
-                setError('Error updating article data');
+                setError('Erreur lors de la mise à jour des données de l\'article');
             }
         }
     };
@@ -187,7 +187,7 @@ function Articles() {
         const isDuplicate = articles.some((article) => article.article.toLowerCase() === formData.article.toLowerCase() && article.id !== formData.id);
 
         if (isDuplicate) {
-            setError('Article already exists in the stock.');
+            setError('L\'article existe déjà dans le stock.');
             return;
         }
 
@@ -211,10 +211,10 @@ function Articles() {
                 }
             });
             fetchArticles();
-            setSuccess('Article deleted successfully');
+            setSuccess('Article supprimé avec succès');
         } catch (error) {
-            console.error('Error deleting article:', error);
-            setError('Error deleting article data');
+            console.error('Erreur lors de la suppression de l\'article:', error);
+            setError('Erreur lors de la suppression des données de l\'article');
         }
     };
 
@@ -249,35 +249,36 @@ function Articles() {
                     <div className='title-input'>
                         <h5>Article</h5>
                         <select className='styled-input' name="article" value={formData.article || ''} onChange={handleInputChange}>
-                            <option value="">Please select an article...</option>
+                            <option value="">Veuillez sélectionner un article...</option>
                             {orders.map((order) => (
                                 <option key={order.id} value={order.article}>{order.article}</option>
                             ))}
                         </select>
                     </div>
                     <div className='title-input'>
-                        <h5>Supplier</h5>
+                        <h5>Fournisseur</h5>
                         <select className='styled-input' name="supplier" value={formData.supplier || ''} onChange={handleInputChange}>
-                            <option value="">Please select a supplier...</option>
+                            <option value="">Veuillez sélectionner un fournisseur...</option>
                             {orders.map((order) => (
                                 <option key={order.id} value={order.supplier}>{order.supplier}</option>
                             ))}
                         </select>
                     </div>
                     <div className='title-input'>
-                        <h5>Category</h5>
-                        <input type="text" name="category" value={formData.category || ''} onChange={handleInputChange} placeholder='Please enter the category ...' />
+                        <h5>Catégorie</h5>
+                        <input type="text"
+                               name="category" value={formData.category || ''} onChange={handleInputChange} placeholder='Please enter the category ...' />
                     </div>
                     <div className='title-input'>
-                        <h5>Quantity</h5>
+                        <h5>Quantité</h5>
                         <input type="text" name="quantity" value={formData.quantity || ''} onChange={handleInputChange} placeholder='Please enter the quantity ...' />
                     </div>
                     <div className='title-input'>
-                        <h5>Unit Price</h5>
+                        <h5>Prix unitaire</h5>
                         <input type="text" name="unit_price" value={formData.unit_price || ''} onChange={handleInputChange} placeholder='Please enter the unit price ...' />
                     </div>
                     <div className='title-input'>
-                        <h5>Validating Date</h5>
+                        <h5>Date de validation</h5>
                         <input type="date" name="validate_date" value={formData.validate_date || ''} onChange={handleInputChange} />
                     </div>
                     <div className='title-input'>
@@ -300,12 +301,12 @@ function Articles() {
                     <thead>
                     <tr>
                         <th>Article</th>
-                        <th>Supplier</th>
-                        <th>Category</th>
-                        <th>Quantity</th>
-                        <th>Unit Price</th>
+                        <th>Fournisseur</th>
+                        <th>Catégorie</th>
+                        <th>Quantité</th>
+                        <th>Prix unitaire</th>
                         <th>Localisation</th>
-                        <th>Validating Date</th>
+                        <th>Date de validation</th>
                         <th>Image</th>
                         <th>Action</th>
                     </tr>

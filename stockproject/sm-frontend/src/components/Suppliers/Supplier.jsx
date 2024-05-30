@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Edit, Trash2 } from "react-feather";
-import { useSearch } from '../Header/SearchContext.jsx';/// Ensure the import path is correct
-
+import { useSearch } from '../Header/SearchContext.jsx'; // Assurez-vous que le chemin d'importation est correct
 
 function SupplierPage() {
     const { searchQuery } = useSearch();
@@ -25,12 +24,12 @@ function SupplierPage() {
                 }
             });
             setSuppliers(response.data.suppliers);
-            console.log(response.data)
+            console.log(response.data);
         } catch (error) {
-            console.error('Error fetching suppliers:', error);
+            console.error('Erreur lors de la récupération des fournisseurs :', error);
             setSuppliers([]); // Ensure suppliers is an empty array on error
             if (error.response && error.response.status === 401) {
-                alert('You are not authorized. Please log in.');
+                alert('Vous n\'êtes pas autorisé. Veuillez vous connecter.');
             }
         }
     };
@@ -55,9 +54,9 @@ function SupplierPage() {
             fetchSuppliers();
             resetForm();
         } catch (error) {
-            console.error('Error submitting supplier:', error);
+            console.error('Erreur lors de la soumission du fournisseur :', error);
             if (error.response && error.response.status === 401) {
-                alert('You are not authorized. Please log in.');
+                alert('Vous n\'êtes pas autorisé. Veuillez vous connecter.');
             }
         }
     };
@@ -76,9 +75,9 @@ function SupplierPage() {
             });
             fetchSuppliers();
         } catch (error) {
-            console.error('Error deleting supplier:', error);
+            console.error('Erreur lors de la suppression du fournisseur :', error);
             if (error.response && error.response.status === 401) {
-                alert('You are not authorized. Please log in.');
+                alert('Vous n\'êtes pas autorisé. Veuillez vous connecter.');
             }
         }
     };
@@ -98,7 +97,7 @@ function SupplierPage() {
         fetchSuppliers();
     }, []);
 
-    // Filter suppliers based on the search query
+    // Filtrer les fournisseurs en fonction de la requête de recherche
     const filteredSuppliers = suppliers.filter(supplier =>
         supplier.first_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         supplier.last_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -114,52 +113,51 @@ function SupplierPage() {
                     <input type="hidden" name="id" value={formData.id}
                            onChange={(e) => setFormData({...formData, id: e.target.value})}/>
                     <div className='title-input'>
-                        <h5>First name</h5>
+                        <h5>Prénom</h5>
                         <input type="text" name="first_name" value={formData.first_name}
                                onChange={(e) => setFormData({...formData, first_name: e.target.value})}
-                               placeholder='Please enter the name ...'/>
+                               placeholder='Veuillez entrer le prénom ...'/>
                     </div>
                     <div className='title-input'>
-                        <h5>Last name</h5>
+                        <h5>Nom</h5>
                         <input type="text" name="last_name" value={formData.last_name}
                                onChange={(e) => setFormData({...formData, last_name: e.target.value})}
-                               placeholder='Please enter the first name ...'/>
+                               placeholder='Veuillez entrer le nom ...'/>
                     </div>
                     <div className='title-input'>
-                        <h5>Email </h5>
+                        <h5>Email</h5>
                         <input type="text" name="email" value={formData.email}
                                onChange={(e) => setFormData({...formData, email: e.target.value})}
-                               placeholder='Please enter the email ...'/>
+                               placeholder="Veuillez entrer l'email ..."/>
                     </div>
                     <div className='title-input'>
-                        <h5>Phone Number</h5>
+                        <h5>Numéro de téléphone</h5>
                         <input type="text" name="phone_number" value={formData.phone_number}
                                onChange={(e) => setFormData({...formData, phone_number: e.target.value})}
-                               placeholder='Please enter the phone number ...'/>
+                               placeholder='Veuillez entrer le numéro de téléphone ...'/>
                     </div>
                     <div className='title-input'>
-                        <h5>Address</h5>
+                        <h5>Adresse</h5>
                         <input type="text" name="address" value={formData.address}
                                onChange={(e) => setFormData({...formData, address: e.target.value})}
-                               placeholder='Please enter the address ...'/>
+                               placeholder="Veuillez entrer l'adresse ..."/>
                     </div>
-                    <button type="submit" className='validate'>{formData.id ? 'Update' : 'Add'}</button>
+                    <button type="submit" className='validate'>{formData.id ? 'Mettre à jour' : 'Ajouter'}</button>
                 </form>
             </div>
             <div className='ttable'>
                 <table>
                     <thead>
                     <tr>
-                        <th>First Name</th>
-                        <th>Last Name</th>
+                        <th>Prénom</th>
+                        <th>Nom</th>
                         <th>Email</th>
-                        <th>Phone</th>
-                        <th>Address</th>
+                        <th>Téléphone</th>
+                        <th>Adresse</th>
                         <th>Action</th>
                     </tr>
                     </thead>
-                    <tbody
-                    >
+                    <tbody>
                     {Array.isArray(filteredSuppliers) && filteredSuppliers.map(supplier => (
                         <tr key={supplier.id}>
                             <td>{supplier.first_name}</td>
