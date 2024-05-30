@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Edit, Trash2 } from "react-feather";
 import axios from 'axios';
-import {useSearch} from "../Header/SearchContext.jsx";
+import { useSearch } from "../Header/SearchContext.jsx";
 
 function SalesPage() {
     const [formData, setFormData] = useState({
@@ -37,14 +37,16 @@ function SalesPage() {
             setSales(Array.isArray(response.data.sales) ? response.data.sales : []);
         } catch (error) {
             console.error('Error fetching sales:', error);
-            setError('Erreur lors de la récupération des données des ventes');
+            setError('Error retrieving sales data');
         }
     };
+
     const filteredSales = sales.filter(sale =>
         sale.article.toLowerCase().includes(searchQuery.toLowerCase()) ||
         sale.client.toLowerCase().includes(searchQuery.toLowerCase()) ||
         sale.description.toLowerCase().includes(searchQuery.toLowerCase())
     );
+
     const fetchStock = async () => {
         try {
             const token = localStorage.getItem('token');
@@ -56,7 +58,7 @@ function SalesPage() {
             setStock(Array.isArray(response.data.stock) ? response.data.stock : []);
         } catch (error) {
             console.error('Error fetching stock:', error);
-            setError('Erreur lors de la récupération des données du stock');
+            setError('Error retrieving stock data');
         }
     };
 
@@ -72,7 +74,7 @@ function SalesPage() {
         } catch (error) {
             console.error('Error fetching clients:', error);
             if (error.response && error.response.status === 401) {
-                alert('Vous n\'êtes pas autorisé. Veuillez vous connecter.');
+                alert('You are not authorized. Please log in.');
             }
         }
     };
@@ -106,13 +108,13 @@ function SalesPage() {
             const selectedArticle = stock.find(item => item.article === formData.article);
 
             if (!selectedArticle) {
-                setError('Article sélectionné introuvable dans le stock.');
+                setError('Selected article not found in stock.');
                 return;
             }
 
             const stockQuantity = selectedArticle.quantity + existingQuantity - parseInt(formData.quantity);
             if (stockQuantity < 0) {
-                setError('La quantité ne peut pas dépasser la quantité disponible en stock.');
+                setError('Quantity cannot exceed available stock.');
                 return;
             }
 
@@ -129,7 +131,7 @@ function SalesPage() {
                         Authorization: `Bearer ${token}`
                     }
                 });
-                setSuccess('Vente mise à jour avec succès');
+                setSuccess('Sale updated successfully');
             } else {
                 await axios.post('http://127.0.0.1:8000/api/sales', dataToSend, {
                     headers: {
@@ -137,17 +139,17 @@ function SalesPage() {
                         Authorization: `Bearer ${token}`
                     }
                 });
-                setSuccess('Vente soumise avec succès');
+                setSuccess('Sale submitted successfully');
             }
 
             await fetchSales();
             await fetchStock();
             resetForm();
         } catch (error) {
-            console.error('Erreur lors de la soumission des données du formulaire:', error);
-            setError("Erreur lors de la soumission des données du formulaire");
+            console.error('Error submitting form data:', error);
+            setError("Error submitting form data");
             if (error.response && error.response.data) {
-                setError(error.response.data.message || "Erreur lors de la soumission des données du formulaire");
+                setError(error.response.data.message || "Error submitting form data");
             }
         }
     };
@@ -165,10 +167,10 @@ function SalesPage() {
                 }
             });
             await fetchSales();
-            setSuccess('Vente supprimée avec succès');
+            setSuccess('Sale deleted successfully');
         } catch (error) {
-            console.error('Erreur lors de la suppression de la vente:', error);
-            setError('Erreur lors de la suppression de la vente');
+            console.error('Error deleting sale:', error);
+            setError('Error deleting sale');
         }
     };
 
@@ -192,7 +194,7 @@ function SalesPage() {
                     <div className='title-input'>
                         <h5>Article</h5>
                         <select className='styled-input' name="article" value={formData.article} onChange={handleChange}>
-                            <option value="">Veuillez sélectionner un article...</option>
+                            <option value="">Please select an article...</option>
                             {stock.map(item => (
                                 <option key={item.id} value={item.article}>{item.article}</option>
                             ))}
@@ -200,12 +202,12 @@ function SalesPage() {
                     </div>
                     <div className='title-input'>
                         <h5>Description</h5>
-                        <input type="text" name="description" value={formData.description} onChange={handleChange} placeholder='Veuillez saisir la description...' />
+                        <input type="text" name="description" value={formData.description} onChange={handleChange} placeholder='Please enter the description...' />
                     </div>
                     <div className='title-input'>
                         <h5>Client</h5>
                         <select className='styled-input' name="client" value={formData.client} onChange={handleChange}>
-                            <option value="">Veuillez sélectionner un client...</option>
+                            <option value="">Please select a client...</option>
                             {clients.map(client => (
                                 <option key={client.id} value={`${client.first_name} ${client.last_name}`}>
                                     {`${client.first_name} ${client.last_name}`}
@@ -214,18 +216,18 @@ function SalesPage() {
                         </select>
                     </div>
                     <div className='title-input'>
-                        <h5>Quantité</h5>
-                        <input type="number" name="quantity" value={formData.quantity} onChange={handleChange} placeholder='Veuillez saisir la quantité...' />
+                        <h5>Quantity</h5>
+                        <input type="number" name="quantity" value={formData.quantity} onChange={handleChange} placeholder='Please enter the quantity...' />
                     </div>
                     <div className='title-input'>
-                        <h5>Prix unitaire</h5>
-                        <input type="number" name="unit_price" value={formData.unit_price} onChange={handleChange} placeholder='Veuillez saisir le prix unitaire...' />
+                        <h5>Unit Price</h5>
+                        <input type="number" name="unit_price" value={formData.unit_price} onChange={handleChange} placeholder='Please enter the unit price...' />
                     </div>
                     <div className='title-input'>
-                        <h5>Catégorie</h5>
-                        <input type="text" name="category" value={formData.category} onChange={handleChange} placeholder='Veuillez saisir la catégorie...' />
+                        <h5>Category</h5>
+                        <input type="text" name="category" value={formData.category} onChange={handleChange} placeholder='Please enter the category...' />
                     </div>
-                    <button type="submit" className='validate'>{formData.id ? 'Mettre à jour' : 'Ajouter'}</button>
+                    <button type="submit" className='validate'>{formData.id ? 'Update' : 'Add'}</button>
                 </form>
             </div>
             <div className='ttable'>
@@ -237,9 +239,9 @@ function SalesPage() {
                         <th>Article</th>
                         <th>Description</th>
                         <th>Client</th>
-                        <th>Quantité</th>
-                        <th>Prix unitaire</th>
-                        <th>Catégorie</th>
+                        <th>Quantity</th>
+                        <th>Unit Price</th>
+                        <th>Category</th>
                         <th>Action</th>
                     </tr>
                     </thead>
@@ -267,7 +269,7 @@ function SalesPage() {
                         ))
                     ) : (
                         <tr>
-                            <td colSpan={7}>Aucune vente trouvée.</td>
+                            <td colSpan={7}>No sales found.</td>
                         </tr>
                     )}
                     </tbody>
