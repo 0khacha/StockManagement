@@ -11,7 +11,7 @@ const SignUp = () => {
         confirmPassword: ''
     });
     const [errors, setErrors] = useState({});
-    const [successMessage, setSuccessMessage] = useState(''); // New state variable for success message
+    const [successMessage, setSuccessMessage] = useState(''); // Nouvelle variable d'état pour le message de réussite
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -21,18 +21,18 @@ const SignUp = () => {
     const handleSignUp = async (e) => {
         e.preventDefault();
         try {
-            // Validate inputs
+            // Valider les entrées
             const validationErrors = {};
             for (const key in formData) {
                 if (!formData[key].trim()) {
-                    validationErrors[key] = `${key.charAt(0).toUpperCase() + key.slice(1).replace('_', ' ')} is required`;
+                    validationErrors[key] = `${key.charAt(0).toUpperCase() + key.slice(1).replace('_', ' ')} est requis`;
                 }
             }
             if (!/\S+@\S+\.\S+/.test(formData.email)) {
-                validationErrors.email = 'Invalid email format';
+                validationErrors.email = 'Format d\'email invalide';
             }
             if (formData.password !== formData.confirmPassword) {
-                validationErrors.confirmPassword = 'Passwords do not match';
+                validationErrors.confirmPassword = 'Les mots de passe ne correspondent pas';
             }
 
             if (Object.keys(validationErrors).length > 0) {
@@ -40,16 +40,16 @@ const SignUp = () => {
                 return;
             }
 
-            // Hash the password
+            // Hasher le mot de passe
             const hashedPassword = sha512(formData.password);
 
-            // Submit form data with hashed password
-            await axios.post('http://127.0.0.1:8000/api/register', { ...formData, password: hashedPassword }); // Update the URL to match your Laravel API endpoint
+            // Soumettre les données du formulaire avec le mot de passe hashé
+            await axios.post('http://127.0.0.1:8000/api/register', { ...formData, password: hashedPassword }); // Mettre à jour l'URL pour correspondre à votre point d'API Laravel
 
-            // Set success message
-            setSuccessMessage('Sign up successful');
+            // Définir le message de succès
+            setSuccessMessage('Inscription réussie');
 
-            // Clear form data after successful submission
+            // Effacer les données du formulaire après soumission réussie
             setFormData({
                 first_name: '',
                 last_name: '',
@@ -58,7 +58,7 @@ const SignUp = () => {
                 confirmPassword: ''
             });
         } catch (error) {
-            console.error('Error:', error);
+            console.error('Erreur :', error);
             if (error.response && error.response.data.errors) {
                 setErrors(error.response.data.errors);
             }
@@ -67,7 +67,7 @@ const SignUp = () => {
 
     return (
         <div>
-            <h2>Sign Up</h2>
+            <h2>S'inscrire</h2>
             <form onSubmit={handleSignUp}>
                 {successMessage && <div className="success-message">{successMessage}</div>}
                 <div className="input-wrapper">
@@ -75,7 +75,7 @@ const SignUp = () => {
                         className="login-input name"
                         type="text"
                         name="first_name"
-                        placeholder="First name"
+                        placeholder="Prénom"
                         value={formData.first_name}
                         onChange={handleChange}
                     />
@@ -84,7 +84,7 @@ const SignUp = () => {
                         className="login-input name"
                         type="text"
                         name="last_name"
-                        placeholder="Last name"
+                        placeholder="Nom de famille"
                         value={formData.last_name}
                         onChange={handleChange}
                     />
@@ -106,7 +106,7 @@ const SignUp = () => {
                         className="login-input"
                         type="password"
                         name="password"
-                        placeholder="Password"
+                        placeholder="Mot de passe"
                         value={formData.password}
                         onChange={handleChange}
                     />
@@ -117,7 +117,7 @@ const SignUp = () => {
                         className="login-input"
                         type="password"
                         name="confirmPassword"
-                        placeholder="Confirm Password"
+                        placeholder="Confirmer le mot de passe"
                         value={formData.confirmPassword}
                         onChange={handleChange}
                     />
@@ -125,7 +125,7 @@ const SignUp = () => {
                 </div>
                 {errors.server && <div className="error-message">{errors.server}</div>}
                 <button type="submit" className="submit">
-                    Sign Up
+                    S'inscrire
                 </button>
             </form>
         </div>

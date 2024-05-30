@@ -1,5 +1,3 @@
-// App.js
-
 import React, { useState } from 'react';
 import './styles.css';
 import Login from '../../components/Login/Login';
@@ -19,19 +17,19 @@ function App() {
             <div className="container">
                 <div className="box">
                     <div className="image">
-                        <img src={logo} alt="Stock Management" />
+                        <img src={logo} alt="Gestion des stocks" />
                     </div>
                     <div className="switch">
                         <button className={isLogin ? "active" : ""} onClick={toggleForm}>
-                            {isLogin ? 'Login': 'Login' }
+                            {isLogin ? 'Connexion' : 'Connexion'}
                         </button>
                         <button className={!isLogin ? "active" : ""} onClick={toggleForm}>
-                            {isLogin ? 'Sign Up' : 'Sign up'}
+                            {isLogin ? 'S\'inscrire' : 'S\'inscrire'}
                         </button>
                     </div>
                     {isLogin ? <Login /> : <SignUp />}
                     {/*<div className="side-image">*/}
-                    {/*    <img src={sideImage} alt="Side Image" />*/}
+                    {/*    <img src={sideImage} alt="Image latérale" />*/}
                     {/*</div>*/}
                 </div>
             </div>
