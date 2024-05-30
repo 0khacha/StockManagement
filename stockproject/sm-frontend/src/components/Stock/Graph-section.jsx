@@ -32,7 +32,7 @@ function GraphSection() {
 
             processStockData(stockData);
         } catch (error) {
-            console.error('Error fetching stock data', error);
+            console.error('Erreur lors de la récupération des données de stock', error);
         }
     };
 
@@ -82,8 +82,8 @@ function GraphSection() {
         <div className='cercle-graph-section'>
             <ProductDetails/>
             <div className='Cergraph-container'>
-                <h3>Stock Graph</h3>
-                <h5>categories :</h5>
+                <h3>Graphique de Stock</h3>
+                <h5>Catégories :</h5>
                 <div className="Tubercle">
                     <Pie data={chartData}/>
                 </div>

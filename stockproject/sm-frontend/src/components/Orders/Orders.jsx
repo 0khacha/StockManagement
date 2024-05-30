@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { Edit, Trash2 } from "react-feather";
-import { SearchContext } from './../Header/SearchContext.jsx'; // Assuming you have a SearchContext
+import { SearchContext } from './../Header/SearchContext.jsx'; // Assurez-vous que le chemin d'importation est correct
 
 function Orders() {
     const [formData, setFormData] = useState({
@@ -17,7 +17,7 @@ function Orders() {
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(null);
     const [orders, setOrders] = useState([]);
-    const { searchQuery } = useContext(SearchContext); // Assuming you have a searchQuery in the SearchContext
+    const { searchQuery } = useContext(SearchContext); // Assurez-vous d'avoir une searchQuery dans le SearchContext
 
     useEffect(() => {
         fetchOrders();
@@ -32,12 +32,12 @@ function Orders() {
                     Authorization: `Bearer ${token}`
                 }
             });
-            console.log('Supplier Data:', response.data); // Log the supplier data
+            console.log('Données des fournisseurs:', response.data); // Afficher les données des fournisseurs
             setSuppliers(Array.isArray(response.data.suppliers) ? response.data.suppliers : []);
         } catch (error) {
-            console.error('Error fetching suppliers:', error);
+            console.error('Erreur lors de la récupération des fournisseurs:', error);
             if (error.response && error.response.status === 401) {
-                alert('You are not authorized. Please log in.');
+                alert('Vous n\'êtes pas autorisé. Veuillez vous connecter.');
             }
         }
     };
@@ -50,12 +50,12 @@ function Orders() {
                     Authorization: `Bearer ${token}`
                 }
             });
-            console.log('Response Data:', response.data);
+            console.log('Données des commandes:', response.data);
             const ordersData = Array.isArray(response.data.orders) ? response.data.orders : [];
             setOrders(ordersData);
         } catch (error) {
-            console.error('Error fetching orders:', error);
-            setError('Error fetching orders data');
+            console.error('Erreur lors de la récupération des commandes:', error);
+            setError('Erreur lors de la récupération des données des commandes');
         }
     };
 
@@ -77,20 +77,20 @@ function Orders() {
                         Authorization: `Bearer ${token}`
                     }
                 });
-                setSuccess('Order updated successfully');
+                setSuccess('Commande mise à jour avec succès');
             } else {
                 await axios.post('http://127.0.0.1:8000/api/orders', formData, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
                 });
-                setSuccess('Order added successfully');
+                setSuccess('Commande ajoutée avec succès');
             }
             fetchOrders();
             resetForm();
         } catch (error) {
-            console.error('Error submitting form data:', error);
-            setError('Error submitting form data');
+            console.error('Erreur lors de la soumission des données du formulaire:', error);
+            setError('Erreur lors de la soumission des données du formulaire');
         }
     };
 
@@ -107,10 +107,10 @@ function Orders() {
                 }
             });
             fetchOrders();
-            setSuccess('Order deleted successfully');
+            setSuccess('Commande supprimée avec succès');
         } catch (error) {
-            console.error('Error deleting order:', error);
-            setError('Error deleting order');
+            console.error('Erreur lors de la suppression de la commande:', error);
+            setError('Erreur lors de la suppression de la commande');
         }
     };
 
@@ -126,31 +126,23 @@ function Orders() {
         });
     };
 
-    // Filter orders based on the search query
-    // Inside your Orders component
-
+    // Filtrer les commandes en fonction de la requête de recherche
     const filterOrders = (orders, searchQuery) => {
         return orders.filter(order => {
-            // Convert quantity to string if it's a number
+            // Convertir la quantité en chaîne si c'est un nombre
             const quantityStr = typeof order.quantity === 'number' ? order.quantity.toString() : order.quantity;
             return (
                 order.article.toLowerCase().includes(searchQuery.toLowerCase()) ||
                 order.supplier.toLowerCase().includes(searchQuery.toLowerCase()) ||
                 order.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                quantityStr.toLowerCase().includes(searchQuery.toLowerCase()) || // Use converted quantity string
-                order.unit_price.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                quantityStr.toLowerCase().includes(searchQuery.toLowerCase()) || // Utiliser la chaîne de quantité convertie
+                order.unit_price.toString().toLowerCase().includes(searchQuery.toLowerCase()) ||
                 order.description.toLowerCase().includes(searchQuery.toLowerCase())
             );
         });
     };
 
-
-// Inside your component, use filterOrders function
-
     const filteredOrders = filterOrders(orders, searchQuery);
-
-// Replace filteredOrders.map(...) with the mapping directly in JSX
-
 
     return (
         <div className='orders-screen client-screen'>
@@ -162,12 +154,12 @@ function Orders() {
                     <div className='title-input'>
                         <h5>Article</h5>
                         <input type="text" name="article" value={formData.article} onChange={handleChange}
-                               placeholder='Please enter the article ...' />
+                               placeholder="Veuillez entrer l'article ..." />
                     </div>
                     <div className='title-input'>
-                        <h5>Supplier</h5>
+                        <h5>Fournisseur</h5>
                         <select className='styled-input' name="supplier" value={formData.supplier} onChange={handleChange}>
-                            <option value="">Please select a supplier...</option>
+                            <option value="">Veuillez sélectionner un fournisseur...</option>
                             {suppliers.map(supplier => (
                                 <option key={supplier.id} value={`${supplier.first_name} ${supplier.last_name}`}>
                                     {`${supplier.first_name} ${supplier.last_name}`}
@@ -176,26 +168,26 @@ function Orders() {
                         </select>
                     </div>
                     <div className='title-input'>
-                        <h5>Category</h5>
+                        <h5>Catégorie</h5>
                         <input type="text" name="category" value={formData.category} onChange={handleChange}
-                               placeholder='Please enter the category ...' />
+                               placeholder='Veuillez entrer la catégorie ...' />
                     </div>
                     <div className='title-input'>
-                        <h5>Quantity</h5>
+                        <h5>Quantité</h5>
                         <input type="number" name="quantity" value={formData.quantity} onChange={handleChange}
-                               placeholder='Please enter the quantity ...' />
+                               placeholder='Veuillez entrer la quantité ...' />
                     </div>
                     <div className='title-input'>
-                        <h5>Unit Price</h5>
+                        <h5>Prix unitaire</h5>
                         <input type="number" name="unit_price" value={formData.unit_price} onChange={handleChange}
-                               placeholder='Please enter the unit price ...' />
+                               placeholder='Veuillez entrer le prix unitaire ...' />
                     </div>
                     <div className='title-input'>
                         <h5>Description</h5>
                         <input type="text" name="description" value={formData.description} onChange={handleChange}
-                               placeholder='Please enter the description ...' />
+                               placeholder='Veuillez entrer la description ...' />
                     </div>
-                    <button type="submit" className='validate'>{formData.id ? 'Update' : 'Add'}</button>
+                    <button type="submit" className='validate'>{formData.id ? 'Mettre à jour' : 'Ajouter'}</button>
                 </form>
             </div>
             <div className='ttable'>
@@ -203,46 +195,46 @@ function Orders() {
                     <thead>
                     <tr>
                         <th>Article</th>
-                        <th>Supplier</th>
-                        <th>Category</th>
-                        <th>Quantity</th>
-                        <th>Unit Price</th>
-                    <th>Description</th>
-                    <th>Action</th>
+                        <th>Fournisseur</th>
+                        <th>Catégorie</th>
+                        <th>Quantité</th>
+                        <th>Prix unitaire</th>
+                        <th>Description</th>
+                        <th>Action</th>
                     </tr>
-                </thead>
-                <tbody>
-                {filteredOrders.length > 0 ? (
-                    filteredOrders.map(order => (
-                        <tr key={order.id}>
-                            <td>{order.article}</td>
-                            <td>{order.supplier}</td>
-                            <td>{order.category}</td>
-                            <td>{order.quantity}</td>
-                            <td>{order.unit_price}</td>
-                            <td>{order.description}</td>
-                            <td>
-                                <div className="action">
-                                    <button className="edit" onClick={() => handleEdit(order)}>
-                                        <Edit className="nav__toggle icon-edit" />
-                                    </button>
-                                    <button className="delete" onClick={() => handleDelete(order.id)}>
-                                        <Trash2 className="nav__toggle icon-delete" />
-                                    </button>
-                                </div>
-                            </td>
+                    </thead>
+                    <tbody>
+                    {filteredOrders.length > 0 ? (
+                        filteredOrders.map(order => (
+                            <tr key={order.id}>
+                                <td>{order.article}</td>
+                                <td>{order.supplier}</td>
+                                <td>{order.category}</td>
+                                <td>{order.quantity}</td>
+                                <td>{order.unit_price}</td>
+                                <td>{order.description}</td>
+                                <td>
+                                    <div className="action">
+                                        <button className="edit" onClick={() => handleEdit(order)}>
+                                            <Edit className="nav__toggle icon-edit" />
+                                        </button>
+                                        <button className="delete" onClick={() => handleDelete(order.id)}>
+                                            <Trash2 className="nav__toggle icon-delete" />
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        ))
+                    ) : (
+                        <tr>
+                            <td colSpan="7">Aucune commande disponible</td>
                         </tr>
-                    ))
-                ) : (
-                    <tr>
-                        <td colSpan="7">No orders available</td>
-                    </tr>
-                )}
-                </tbody>
-            </table>
+                    )}
+                    </tbody>
+                </table>
+            </div>
         </div>
-</div>
-);
+    );
 }
 
 export default Orders;

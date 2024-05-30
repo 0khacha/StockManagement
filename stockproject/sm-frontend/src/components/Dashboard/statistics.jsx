@@ -47,7 +47,7 @@ function Statistics() {
             const salesData = Array.isArray(response.data.sales) ? response.data.sales : [];
             setSalesData(salesData);
         } catch (error) {
-            console.error('Error fetching sales data', error);
+            console.error('Erreur lors de la récupération des données de ventes', error);
         }
     };
 
@@ -62,7 +62,7 @@ function Statistics() {
             const ordersData = Array.isArray(response.data.orders) ? response.data.orders : [];
             setOrdersData(ordersData);
         } catch (error) {
-            console.error('Error fetching orders data', error);
+            console.error('Erreur lors de la récupération des données de commandes', error);
         }
     };
 
@@ -77,7 +77,7 @@ function Statistics() {
             const articlesData = Array.isArray(response.data) ? response.data : [];
             setArticlesData(articlesData);
         } catch (error) {
-            console.error('Error fetching articles data', error);
+            console.error('Erreur lors de la récupération des données des articles', error);
         }
     };
 
@@ -192,14 +192,14 @@ function Statistics() {
     return (
         <div className="statistics">
             <div className="stat-boxes">
-                {/* Orders Section */}
+                {/* Section des commandes */}
                 <div className="orders">
                     <div className='content'>
-                        <h3>Orders</h3>
+                        <h3>Commandes</h3>
                         <h2>{ordersData.length}</h2>
                         <div className='state-arrow'>
                             <img src={arrow} alt="" className='arrow' />
-                            <p>Since yesterday</p>
+                            <p>Depuis hier</p>
                         </div>
                     </div>
                     <div className='graph-top'>
@@ -209,14 +209,14 @@ function Statistics() {
                         </p>
                     </div>
                 </div>
-                {/* Sales Section */}
+                {/* Section des ventes */}
                 <div className="sales">
                     <div className='content'>
-                        <h3>Sales</h3>
+                        <h3>Ventes</h3>
                         <h2>{salesData.length}</h2>
                         <div className='state-arrow'>
                             <img src={arrow} alt="" className='arrow' />
-                            <p>Since yesterday</p>
+                            <p>Depuis hier</p>
                         </div>
                     </div>
                     <div className='graph-top'>
@@ -224,17 +224,16 @@ function Statistics() {
                         <p className={`value-${salesComparison.isPositive ? 'pos' : 'neg'}`}>
                             {salesComparison.difference >= 0 ? '+' : ''}{salesComparison.difference}%
                         </p>
-
                     </div>
                 </div>
-                {/* Articles Section */}
+                {/* Section des articles */}
                 <div className="articles">
-                <div className='content'>
+                    <div className='content'>
                         <h3>Articles</h3>
                         <h2>{articlesData.length}</h2>
                         <div className='state-arrow'>
                             <img src={arrow} alt="" className='arrow' />
-                            <p>Since yesterday</p>
+                            <p>Depuis hier</p>
                         </div>
                     </div>
                     <div className='graph-top'>

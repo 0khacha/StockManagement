@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios'; // If you're using Axios
+import axios from 'axios'; // Si vous utilisez Axios
 
 function ProductDetails() {
     const [salesData, setSalesData] = useState(null);
@@ -7,7 +7,7 @@ function ProductDetails() {
     const [visibleCategory, setVisibleCategory] = useState(null);
 
     useEffect(() => {
-        // Fetch data from Sales API
+        // Récupérer les données de l'API des ventes
         const fetchSalesData = async () => {
             try {
                 const token = localStorage.getItem('token');
@@ -18,11 +18,11 @@ function ProductDetails() {
                 });
                 setSalesData(salesResponse.data.sales);
             } catch (error) {
-                console.error('Error fetching sales data:', error);
+                console.error('Erreur lors de la récupération des données de ventes :', error);
             }
         };
 
-        // Fetch data from Stock API
+        // Récupérer les données de l'API des stocks
         const fetchStockData = async () => {
             try {
                 const token = localStorage.getItem('token');
@@ -33,15 +33,15 @@ function ProductDetails() {
                 });
                 setStockData(stockResponse.data.stock);
             } catch (error) {
-                console.error('Error fetching stock data:', error);
+                console.error('Erreur lors de la récupération des données de stock :', error);
             }
         };
 
-        fetchSalesData(); // Call the function to fetch sales data
-        fetchStockData(); // Call the function to fetch stock data
-    }, []); // Empty dependency array means this effect runs once after the component mounts
+        fetchSalesData(); // Appeler la fonction pour récupérer les données de ventes
+        fetchStockData(); // Appeler la fonction pour récupérer les données de stock
+    }, []); // Tableau de dépendances vide signifie que cet effet se déclenche une fois après le montage du composant
 
-    // Function to calculate the frequency of sales for each article
+    // Fonction pour calculer la fréquence des ventes pour chaque article
     const calculateArticleSalesFrequency = () => {
         if (!salesData) return new Map();
         const salesFrequencyMap = new Map();
@@ -56,7 +56,7 @@ function ProductDetails() {
         return salesFrequencyMap;
     };
 
-    // Function to calculate the total quantity sold for each article
+    // Fonction pour calculer la quantité totale vendue pour chaque article
     const calculateTotalQuantitySold = () => {
         if (!salesData) return new Map();
         const quantitySoldMap = new Map();
@@ -71,7 +71,7 @@ function ProductDetails() {
         return quantitySoldMap;
     };
 
-    // Function to find fast-moving, slow-moving, and top-selling items
+    // Fonction pour trouver les articles à mouvement rapide, à mouvement lent et les articles les plus vendus
     const findFastMovingAndTopSellingItems = () => {
         if (!salesData) return { fastMovingItems: [], slowMovingItems: [], topSellingItems: [], itemNames: {} };
 
@@ -83,11 +83,11 @@ function ProductDetails() {
         const itemNames = {};
 
         salesData.forEach(sale => {
-            itemNames[sale.article] = sale.article; // Assuming article_name is available in sale data
+            itemNames[sale.article] = sale.article; // Supposons que article_name est disponible dans les données de vente
         });
 
         salesFrequencyMap.forEach((frequency, articleId) => {
-            // Determine fast-moving and slow-moving items
+            // Déterminer les articles à mouvement rapide et lent
             if (frequency > 1) {
                 fastMovingItems.push(articleId);
             } else {
@@ -97,7 +97,7 @@ function ProductDetails() {
 
         let maxQuantitySold = 0;
         totalQuantitySoldMap.forEach((quantitySold, articleId) => {
-            // Determine top-selling items
+            // Déterminer les articles les plus vendus
             if (quantitySold > maxQuantitySold) {
                 maxQuantitySold = quantitySold;
                 topSellingItems = [articleId];
@@ -109,38 +109,38 @@ function ProductDetails() {
         return { fastMovingItems, slowMovingItems, topSellingItems, itemNames };
     };
 
-    // Function to filter items with upcoming expiration dates
+    // Fonction pour filtrer les articles avec des dates d'expiration à venir
     const filterItemsWithUpcomingExpiration = () => {
         if (!stockData) return [];
         return stockData.filter(item => {
-            // Assuming validity_period is a date field and you want to check if it's within a week from now
+            // Supposons que validity_period est un champ de date et que vous souhaitez vérifier si c'est dans une semaine à partir de maintenant
             const validityPeriod = new Date(item.validity_period);
             const oneWeekFromNow = new Date();
-            oneWeekFromNow.setDate(oneWeekFromNow.getDate() + 7); // Assuming a week from now
+            oneWeekFromNow.setDate(oneWeekFromNow.getDate() + 7); // Supposons une semaine à partir de maintenant
             return validityPeriod < oneWeekFromNow;
         });
     };
 
-    // Calculate fast-moving items, slow-moving items, top-selling items, all items, and items with upcoming expiration dates
+    // Calculer les articles à mouvement rapide, les articles à mouvement lent, les articles les plus vendus, tous les articles et les articles avec des dates d'expiration à venir
     const { fastMovingItems, slowMovingItems, topSellingItems, itemNames } = findFastMovingAndTopSellingItems();
     const allItemsCount = stockData ? stockData.length : 0;
     const itemsWithUpcomingExpiration = filterItemsWithUpcomingExpiration();
 
-    // Function to toggle visibility of article names
+    // Fonction pour basculer la visibilité des noms d'articles
     const toggleVisibility = (category) => {
         setVisibleCategory(visibleCategory === category ? null : category);
     };
 
     return (
         <div className='product-details'>
-            <h3>Stock details</h3>
+            <h3>Détails du stock</h3>
             {stockData && salesData ? (
                 <div>
                     <div className='product-details__item'>
                         <ul>
                             <li className={'item green-items'}>
                                 <span className={'item-name-stock'}
-                                      onClick={() => toggleVisibility('allItems')}>All items</span>
+                                      onClick={() => toggleVisibility('allItems')}>Tous les articles</span>
                                 {visibleCategory === 'allItems' ? (
                                     <ul className={'article-names'}>
                                         {stockData.map(item => (
@@ -152,7 +152,7 @@ function ProductDetails() {
                                 )}
                             </li>
                             <li className={'item green-items'}>
-                                <span className={'item-name-stock'} onClick={() => toggleVisibility('topSelling')}>Top-selling items</span>
+                                <span className={'item-name-stock'} onClick={() => toggleVisibility('topSelling')}>Articles les plus vendus</span>
                                 {visibleCategory === 'topSelling' ? (
                                     <ul className={'article-names'}>
                                         {topSellingItems.map(articleId => (
@@ -164,7 +164,7 @@ function ProductDetails() {
                                 )}
                             </li>
                             <li className={'item green-items'}>
-                                <span className={'item-name-stock'} onClick={() => toggleVisibility('fastMoving')}>Fast-moving items</span>
+                                <span className={'item-name-stock'} onClick={() => toggleVisibility('fastMoving')}>Articles à mouvement rapide</span>
                                 {visibleCategory === 'fastMoving' ? (
                                     <ul className={'article-names'}>
                                         {fastMovingItems.map(articleId => (
@@ -176,7 +176,7 @@ function ProductDetails() {
                                 )}
                             </li>
                             <li className={'item red-items'}>
-                                <span className={'item-name-stock'} onClick={() => toggleVisibility('upcomingExpiration')}>Items with upcoming expiration dates</span>
+                                <span className={'item-name-stock'} onClick={() => toggleVisibility('upcomingExpiration')}>Articles avec des dates d'expiration à venir</span>
                                 {visibleCategory === 'upcomingExpiration' ? (
                                     <ul className={'article-names'}>
                                         {itemsWithUpcomingExpiration.map(item => (
@@ -189,7 +189,7 @@ function ProductDetails() {
                             </li>
 
                             <li className={'item red-items'}>
-                                <span className={'item-name-stock'} onClick={() => toggleVisibility('slowMoving')}>Slow-moving items</span>
+                                <span className={'item-name-stock'} onClick={() => toggleVisibility('slowMoving')}>Articles à mouvement lent</span>
                                 {visibleCategory === 'slowMoving' ? (
                                     <ul className={'article-names'}>
                                         {slowMovingItems.map(articleId => (
@@ -205,7 +205,7 @@ function ProductDetails() {
                     </div>
                 </div>
             ) : (
-                <p>Loading...</p>
+                <p>Chargement...</p>
             )}
         </div>
     );

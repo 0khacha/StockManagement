@@ -7,7 +7,7 @@ import axios from 'axios';
 function Turnover() {
     const chartRef = useRef(null);
     const chartInstance = useRef(null);
-    const [selectedTimePeriod, setSelectedTimePeriod] = useState('1 Day');
+    const [selectedTimePeriod, setSelectedTimePeriod] = useState('1 Jour');
     const [salesData, setSalesData] = useState([]);
     const [bestSellingItems, setBestSellingItems] = useState([]);
     const [topSellingArticles, setTopSellingArticles] = useState([]);
@@ -42,7 +42,7 @@ function Turnover() {
             setTotalSalesValue(totalSales);
             renderChart(selectedTimePeriod, salesData);
         } catch (error) {
-            console.error('Error fetching sales:', error);
+            console.error('Erreur lors de la récupération des ventes :', error);
         }
     };
 
@@ -57,7 +57,7 @@ function Turnover() {
             data: {
                 labels: getLabelsForTimePeriod(timePeriod),
                 datasets: [{
-                    label: 'Number of Sales',
+                    label: 'Nombre de ventes',
                     data: getDataForTimePeriod(timePeriod, salesData),
                     borderColor: 'rgb(10,225,70)',
                     tension: 0.1,
@@ -81,14 +81,14 @@ function Turnover() {
 
     const getLabelsForTimePeriod = (timePeriod) => {
         switch (timePeriod) {
-            case '1 Day':
+            case '1 Jour':
                 return ['0-3h', '3-6h', '6-9h', '9-12h', '12-15h', '15-18h', '18-21h', '21-24h'];
-            case '3 Month':
-                return ['Jan', 'Feb', 'Mar'];
-            case '6 Month':
-                return ['Jan', 'Apr', 'Jul'];
-            case '1 Year':
-                return ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            case '3 Mois':
+                return ['Jan', 'Fév', 'Mar'];
+            case '6 Mois':
+                return ['Jan', 'Avr', 'Juil'];
+            case '1 An':
+                return ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Août', 'Sep', 'Oct', 'Nov', 'Déc'];
             default:
                 return [];
         }
@@ -96,13 +96,13 @@ function Turnover() {
 
     const getDataForTimePeriod = (timePeriod, salesData) => {
         switch (timePeriod) {
-            case '1 Day':
+            case '1 Jour':
                 return aggregateSalesByHour(salesData, 3);
-            case '3 Month':
+            case '3 Mois':
                 return aggregateSalesByMonth(salesData, 3);
-            case '6 Month':
+            case '6 Mois':
                 return aggregateSalesByMonth(salesData, 6);
-            case '1 Year':
+            case '1 An':
                 return aggregateSalesByMonth(salesData, 12);
             default:
                 return [];
@@ -167,15 +167,15 @@ function Turnover() {
             <div className="second-container">
                 <div className="graph-container">
                     <div className='title-items'>
-                        <h3>Sales</h3>
+                        <h3>Ventes</h3>
                         <div className='value'>{totalSalesValue.toFixed(2)}$</div>
                     </div>
                     <div className='months'>
                         <ul>
-                            <li className={selectedTimePeriod === '1 Day' ? 'selected' : ''} onClick={() => handleTimePeriodClick('1 Day')}>1 Day</li>
-                            <li className={selectedTimePeriod === '3 Month' ? 'selected' : ''} onClick={() => handleTimePeriodClick('3 Month')}>3 Month</li>
-                            <li className={selectedTimePeriod === '6 Month' ? 'selected' : ''} onClick={() => handleTimePeriodClick('6 Month')}>6 Month</li>
-                            <li className={selectedTimePeriod === '1 Year' ? 'selected' : ''} onClick={() => handleTimePeriodClick('1 Year')}>1 Year</li>
+                            <li className={selectedTimePeriod === '1 Jour' ? 'selected' : ''} onClick={() => handleTimePeriodClick('1 Jour')}>1 Jour</li>
+                            <li className={selectedTimePeriod === '3 Mois' ? 'selected' : ''} onClick={() => handleTimePeriodClick('3 Mois')}>3 Mois</li>
+                            <li className={selectedTimePeriod === '6 Mois' ? 'selected' : ''} onClick={() => handleTimePeriodClick('6 Mois')}>6 Mois</li>
+                            <li className={selectedTimePeriod === '1 An' ? 'selected' : ''} onClick={() => handleTimePeriodClick('1 An')}>1 An</li>
                         </ul>
                     </div>
                     <div className='graph'>
@@ -183,10 +183,9 @@ function Turnover() {
                     </div>
                 </div>
                 <div className="selling-container">
-                    <h3>Best Selling</h3>
+                    <h3>Meilleures Ventes</h3>
                     <ul>
-                        {bestSellingItems.map((item,
-                                               index) => (
+                        {bestSellingItems.map((item, index) => (
                             <li key={index}>
                                 {item.article} <span className="price">${item.total.toFixed(2)}</span>
                             </li>
@@ -194,7 +193,7 @@ function Turnover() {
                     </ul>
                 </div>
                 <div className="selling-container">
-                    <h3>Top-selling items</h3>
+                    <h3>Articles les plus vendus</h3>
                     <ul>
                         {topSellingArticles.map((item, index) => (
                             <li key={index}>

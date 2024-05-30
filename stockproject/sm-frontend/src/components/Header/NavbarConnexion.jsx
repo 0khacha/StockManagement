@@ -59,13 +59,13 @@ const NavbarConnexion = () => {
                                     <li>
                                         <Link to="settings" className="dropdown-item">
                                             <User className='user-icon feather-icon' />
-                                            <span className="item-name">Account</span>
+                                            <span className="item-name">Compte</span>
                                         </Link>
                                     </li>
                                     <li>
                                         <Link to="/logout" onClick={handleLogout} className="dropdown-item">
                                             <LogOut className='logOut-icon feather-icon' />
-                                            <span className="item-name">Log out</span>
+                                            <span className="item-name">Déconnexion</span>
                                         </Link>
                                     </li>
                                 </ul>

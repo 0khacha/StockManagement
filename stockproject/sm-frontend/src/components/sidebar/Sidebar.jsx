@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import {Link, useNavigate} from 'react-router-dom'; // Import Link from react-router-dom
-import './styles.css'; // Import your CSS file
+import { Link, useNavigate } from 'react-router-dom'; // Importation de Link depuis react-router-dom
+import './styles.css'; // Importation de votre fichier CSS
 import logo from '../images/logo.png';
 import {
     Menu,
@@ -13,20 +13,20 @@ import {
     Settings,
     LogOut,
     Truck,
-    ShoppingBag, // New icon for Orders
-    FileText, // New icon for Articles
-    Archive, // New icon for Stock
-    DollarSign // New icon for Sales
+    ShoppingBag, // Nouvelle icône pour les commandes
+    FileText, // Nouvelle icône pour les articles
+    Archive, // Nouvelle icône pour le stock
+    DollarSign // Nouvelle icône pour les ventes
 } from 'react-feather';
 import Header from "../Header/Header";
-import {useAuth} from "../../AuthProvider.jsx";
+import { useAuth } from "../../AuthProvider.jsx";
 
 
 function Sidebar() {
     const [isNavOpen, setIsNavOpen] = useState(false);
-    const [activeLink, setActiveLink] = useState("Dashboard"); // Set Dashboard as active by default
-    const { logout } = useAuth(); // Access logout function from useAuth
-    const navigate = useNavigate(); // Use navigate hook for redirection
+    const [activeLink, setActiveLink] = useState("Dashboard"); // Définir le Dashboard comme actif par défaut
+    const { logout } = useAuth(); // Accéder à la fonction de déconnexion depuis useAuth
+    const navigate = useNavigate(); // Utiliser le hook navigate pour la redirection
 
 
     const toggleMenu = () => {
@@ -44,10 +44,10 @@ function Sidebar() {
     };
     const handleLogout = async () => {
         try {
-            await logout(); // Call logout function
-            navigate('/login'); // Redirect to login page after logout
+            await logout(); // Appeler la fonction de déconnexion
+            navigate('/login'); // Rediriger vers la page de connexion après la déconnexion
         } catch (error) {
-            console.error('Logout error:', error);
+            console.error('Erreur de déconnexion :', error);
         }
     };
 
@@ -63,31 +63,31 @@ function Sidebar() {
                         <div className="nav__list">
                             <Link to="/" className={`nav__link ${activeLink === "Dashboard" ? "active" : ""}`} onClick={() => handleLinkClick("Dashboard")}>
                                 <Home className="nav__icon" />
-                                <span className="nav__name">Dashboard</span>
+                                <span className="nav__name">Tableau de bord</span>
                             </Link>
                             {/*<Link to="/messenger" className={`nav__link ${activeLink === "Messenger" ? "active" : ""}`} onClick={() => handleLinkClick("Messenger")}>*/}
                             {/*    <MessageSquare className="nav__icon" />*/}
-                            {/*    <span className="nav__name">Messenger</span>*/}
+                            {/*    <span className="nav__name">Messagerie</span>*/}
                             {/*</Link>*/}
                             <Link to="/client" className={`nav__link ${activeLink === "Clients" ? "active" : ""}`} onClick={() => handleLinkClick("Clients")}>
                                 <Users className="nav__icon" />
                                 <span className="nav__name">Clients</span>
                             </Link>
-                            <Link to="/supplier" className={`nav__link ${activeLink === "Supplier" ? "active" : ""}`} onClick={() => handleLinkClick("Supplier")}>
+                            <Link to="/supplier" className={`nav__link ${activeLink === "Fournisseurs" ? "active" : ""}`} onClick={() => handleLinkClick("Fournisseurs")}>
                                 <Truck className="nav__icon" />
-                                <span className="nav__name">Supplier</span>
+                                <span className="nav__name">Fournisseurs</span>
                             </Link>
-                            <Link to="/orders" className={`nav__link ${activeLink === "Orders" ? "active" : ""}`} onClick={() => handleLinkClick("Orders")}>
+                            <Link to="/orders" className={`nav__link ${activeLink === "Commandes" ? "active" : ""}`} onClick={() => handleLinkClick("Commandes")}>
                                 <ShoppingBag className="nav__icon" />
-                                <span className="nav__name">Orders</span>
+                                <span className="nav__name">Commandes</span>
                             </Link>
                             <Link to="/articles" className={`nav__link ${activeLink === "Articles" ? "active" : ""}`} onClick={() => handleLinkClick("Articles")}>
                                 <FileText className="nav__icon" />
                                 <span className="nav__name">Articles</span>
                             </Link>
-                            <Link to="/sales" className={`nav__link ${activeLink === "Sales" ? "active" : ""}`} onClick={() => handleLinkClick("Sales")}>
+                            <Link to="/sales" className={`nav__link ${activeLink === "Ventes" ? "active" : ""}`} onClick={() => handleLinkClick("Ventes")}>
                                 <DollarSign className="nav__icon" />
-                                <span className="nav__name">Sales</span>
+                                <span className="nav__name">Ventes</span>
                             </Link>
                             <Link to="/stock" className={`nav__link ${activeLink === "Stock" ? "active" : ""}`} onClick={() => handleLinkClick("Stock")}>
                                 <Archive className="nav__icon" />
@@ -95,23 +95,23 @@ function Sidebar() {
                             </Link>
                             <div className="nav__link collapse">
                                 <Users className="nav__icon" />
-                                <span className="nav__name">Team</span>
+                                <span className="nav__name">Équipe</span>
                                 <ChevronDown className="collapse__link" onClick={toggleCollapse} />
                                 <ul className="collapse__menu">
-                                    <li><a href="#" className="collapse__sublink">Data</a></li>
-                                    <li><a href="#" className="collapse__sublink">Group</a></li>
-                                    <li><a href="#" className="collapse__sublink">Members</a></li>
+                                    <li><a href="#" className="collapse__sublink">Données</a></li>
+                                    <li><a href="#" className="collapse__sublink">Groupe</a></li>
+                                    <li><a href="#" className="collapse__sublink">Membres</a></li>
                                 </ul>
                             </div>
-                            <Link to="/settings" className={`nav__link ${activeLink === "Settings" ? "active" : ""}`} onClick={() => handleLinkClick("Settings")}>
+                            <Link to="/settings" className={`nav__link ${activeLink === "Paramètres" ? "active" : ""}`} onClick={() => handleLinkClick("Paramètres")}>
                                 <Settings className="nav__icon" />
-                                <span className="nav__name">Settings</span>
+                                <span className="nav__name">Paramètres</span>
                             </Link>
                         </div>
                     </div>
                     <Link to="/logout" className="nav__link" onClick={handleLogout}>
                         <LogOut className="nav__icon" />
-                        <span className="nav__name">Log Out</span>
+                        <span className="nav__name">Déconnexion</span>
                     </Link>
                 </nav>
             </div>

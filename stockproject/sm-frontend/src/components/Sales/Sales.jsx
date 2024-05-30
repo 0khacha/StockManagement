@@ -36,8 +36,8 @@ function SalesPage() {
             });
             setSales(Array.isArray(response.data.sales) ? response.data.sales : []);
         } catch (error) {
-            console.error('Error fetching sales:', error);
-            setError('Error retrieving sales data');
+            console.error('Erreur lors de la récupération des ventes:', error);
+            setError('Erreur lors de la récupération des données de vente');
         }
     };
 
@@ -57,8 +57,8 @@ function SalesPage() {
             });
             setStock(Array.isArray(response.data.stock) ? response.data.stock : []);
         } catch (error) {
-            console.error('Error fetching stock:', error);
-            setError('Error retrieving stock data');
+            console.error('Erreur lors de la récupération du stock:', error);
+            setError('Erreur lors de la récupération des données de stock');
         }
     };
 
@@ -72,9 +72,9 @@ function SalesPage() {
             });
             setClients(Array.isArray(response.data) ? response.data : []);
         } catch (error) {
-            console.error('Error fetching clients:', error);
+            console.error('Erreur lors de la récupération des clients:', error);
             if (error.response && error.response.status === 401) {
-                alert('You are not authorized. Please log in.');
+                alert('Vous n\'êtes pas autorisé. Veuillez vous connecter.');
             }
         }
     };
@@ -108,13 +108,13 @@ function SalesPage() {
             const selectedArticle = stock.find(item => item.article === formData.article);
 
             if (!selectedArticle) {
-                setError('Selected article not found in stock.');
+                setError('Article sélectionné introuvable dans le stock.');
                 return;
             }
 
             const stockQuantity = selectedArticle.quantity + existingQuantity - parseInt(formData.quantity);
             if (stockQuantity < 0) {
-                setError('Quantity cannot exceed available stock.');
+                setError('La quantité ne peut pas dépasser le stock disponible.');
                 return;
             }
 
@@ -131,7 +131,7 @@ function SalesPage() {
                         Authorization: `Bearer ${token}`
                     }
                 });
-                setSuccess('Sale updated successfully');
+                setSuccess('Vente mise à jour avec succès');
             } else {
                 await axios.post('http://127.0.0.1:8000/api/sales', dataToSend, {
                     headers: {
@@ -139,17 +139,17 @@ function SalesPage() {
                         Authorization: `Bearer ${token}`
                     }
                 });
-                setSuccess('Sale submitted successfully');
+                setSuccess('Vente ajoutée avec succès');
             }
 
             await fetchSales();
             await fetchStock();
             resetForm();
         } catch (error) {
-            console.error('Error submitting form data:', error);
-            setError("Error submitting form data");
+            console.error('Erreur lors de la soumission des données du formulaire:', error);
+            setError("Erreur lors de la soumission des données du formulaire");
             if (error.response && error.response.data) {
-                setError(error.response.data.message || "Error submitting form data");
+                setError(error.response.data.message || "Erreur lors de la soumission des données du formulaire");
             }
         }
     };
@@ -167,10 +167,10 @@ function SalesPage() {
                 }
             });
             await fetchSales();
-            setSuccess('Sale deleted successfully');
+            setSuccess('Vente supprimée avec succès');
         } catch (error) {
-            console.error('Error deleting sale:', error);
-            setError('Error deleting sale');
+            console.error('Erreur lors de la suppression de la vente:', error);
+            setError('Erreur lors de la suppression de la vente');
         }
     };
 
@@ -194,7 +194,7 @@ function SalesPage() {
                     <div className='title-input'>
                         <h5>Article</h5>
                         <select className='styled-input' name="article" value={formData.article} onChange={handleChange}>
-                            <option value="">Please select an article...</option>
+                            <option value="">Veuillez sélectionner un article...</option>
                             {stock.map(item => (
                                 <option key={item.id} value={item.article}>{item.article}</option>
                             ))}
@@ -202,12 +202,12 @@ function SalesPage() {
                     </div>
                     <div className='title-input'>
                         <h5>Description</h5>
-                        <input type="text" name="description" value={formData.description} onChange={handleChange} placeholder='Please enter the description...' />
+                        <input type="text" name="description" value={formData.description} onChange={handleChange} placeholder='Veuillez entrer la description...' />
                     </div>
                     <div className='title-input'>
                         <h5>Client</h5>
                         <select className='styled-input' name="client" value={formData.client} onChange={handleChange}>
-                            <option value="">Please select a client...</option>
+                            <option value="">Veuillez sélectionner un client...</option>
                             {clients.map(client => (
                                 <option key={client.id} value={`${client.first_name} ${client.last_name}`}>
                                     {`${client.first_name} ${client.last_name}`}
@@ -216,18 +216,18 @@ function SalesPage() {
                         </select>
                     </div>
                     <div className='title-input'>
-                        <h5>Quantity</h5>
-                        <input type="number" name="quantity" value={formData.quantity} onChange={handleChange} placeholder='Please enter the quantity...' />
+                        <h5>Quantité</h5>
+                        <input type="number" name="quantity" value={formData.quantity} onChange={handleChange} placeholder='Veuillez entrer la quantité...' />
                     </div>
                     <div className='title-input'>
-                        <h5>Unit Price</h5>
-                        <input type="number" name="unit_price" value={formData.unit_price} onChange={handleChange} placeholder='Please enter the unit price...' />
+                        <h5>Prix Unitaire</h5>
+                        <input type="number" name="unit_price" value={formData.unit_price} onChange={handleChange} placeholder='Veuillez entrer le prix unitaire...' />
                     </div>
                     <div className='title-input'>
-                        <h5>Category</h5>
-                        <input type="text" name="category" value={formData.category} onChange={handleChange} placeholder='Please enter the category...' />
+                        <h5>Catégorie</h5>
+                        <input type="text" name="category" value={formData.category} onChange={handleChange} placeholder='Veuillez entrer la catégorie...' />
                     </div>
-                    <button type="submit" className='validate'>{formData.id ? 'Update' : 'Add'}</button>
+                    <button type="submit" className='validate'>{formData.id ? 'Mettre à jour' : 'Ajouter'}</button>
                 </form>
             </div>
             <div className='ttable'>
@@ -239,9 +239,9 @@ function SalesPage() {
                         <th>Article</th>
                         <th>Description</th>
                         <th>Client</th>
-                        <th>Quantity</th>
-                        <th>Unit Price</th>
-                        <th>Category</th>
+                        <th>Quantité</th>
+                        <th>Prix Unitaire</th>
+                        <th>Catégorie</th>
                         <th>Action</th>
                     </tr>
                     </thead>
@@ -269,7 +269,7 @@ function SalesPage() {
                         ))
                     ) : (
                         <tr>
-                            <td colSpan={7}>No sales found.</td>
+                            <td colSpan={7}>Aucune vente trouvée.</td>
                         </tr>
                     )}
                     </tbody>
