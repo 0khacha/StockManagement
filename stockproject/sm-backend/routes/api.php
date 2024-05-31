@@ -11,19 +11,19 @@ use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-//Route::get('/user', function (Request $request) {
-//  return $request->user();
-//});
 
 
-//Route::get('/user', [UserController::class, 'getUserInfo']);
 
-//use App\Http\Controllers\Auth\LoginController;
-//use Illuminate\Support\Facades\Route;
+Route::get('/health-check', function () {
+    return response()->json(['status' => 'OK'], 200);
+});
+
+
 
 use App\Http\Controllers\AuthController;
 
 Route::post('/login', [LoginController::class, 'login']);
+Route::post('/check-email', [LoginController::class, 'checkEmail']);
 Route::middleware('auth:sanctum')->post('/logout', [LoginController::class, 'logout']);
 Route::middleware('auth:sanctum')->get('/user', [LoginController::class, 'user']);
 Route::middleware('auth:sanctum')->put('/updateUser', [LoginController::class, 'updateUser']);
@@ -33,14 +33,6 @@ Route::middleware('auth:sanctum')->delete('/delete-account', [LoginController::c
 
 
 Route::post('register', [\App\Http\Controllers\Auth\RegisteredUserController::class, 'register']);
-// routes/api.php
-
-// routes/api.php
-
-//
-//Route::post('/login', [LoginController::class, 'login']);
-//Route::post('/logout', [LoginController::class, 'logout']);
-//
 
 
 

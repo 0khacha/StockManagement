@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -113,6 +114,21 @@ class LoginController extends Controller
             return response()->json(['error' => 'An error occurred while deleting the account'], 500);
         }
     }
+        public function checkEmail(Request $request): \Illuminate\Http\JsonResponse
+        {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $emailExists = User::where('email', $request->email)->exists();
+
+        return response()->json(['emailExists' => $emailExists]);
+    }
+
 
 
 
