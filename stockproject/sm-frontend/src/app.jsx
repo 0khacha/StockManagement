@@ -12,7 +12,7 @@ import Stock from './pages/Stock/Stock';
 import Settings from './pages/Settings/Settings';
 import Login from './pages/Login/Login';
 import { AuthProvider, useAuth } from "./AuthProvider.jsx";
-import {SearchProvider} from "./components/Header/SearchContext.jsx"; // Ensure the correct import path
+import {SearchProvider} from "./components/Header/SearchContext.jsx";
 
 
 function App() {
