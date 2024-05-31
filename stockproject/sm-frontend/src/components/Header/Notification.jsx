@@ -27,7 +27,7 @@ const Notification = () => {
                 });
                 setUnreadNotification(hasUnread);
             } catch (error) {
-                console.error('Error fetching stock data:', error);
+                console.error('Erreur lors de la récupération des données de stock :', error);
             }
         };
 
@@ -76,14 +76,14 @@ const Notification = () => {
                 {notificationCount > 0 ? (
                     filteredStockData.map(article => (
                         <div key={article.id} className="notification-item">
-                            {article.quantity < 10 && <div>{article.article} is out of stock</div>}
+                            {article.quantity < 10 && <div>{article.article} est en rupture de stock</div>}
                             {new Date(article.validity_period) <= new Date(new Date().getTime() + 31 * 24 * 60 * 60 * 1000) && (
-                                <div>{`${article.article} is expiring soon (${article.validity_period})`}</div>
+                                <div>{`${article.article} expire bientôt (${article.validity_period})`}</div>
                             )}
                         </div>
                     ))
                 ) : (
-                    <div className="notification-item">No notifications</div>
+                    <div className="notification-item">Pas de notifications</div>
                 )}
             </div>
         </div>
